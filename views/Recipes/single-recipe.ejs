@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Con Sazon</title>
+</head>
+<body>
+    <div class="container">
+        <section class="content">
+            <h1><%= recipes[0].recipeName %></h1>
+            <div class="recipes-container">
+
+                <% for (let recipe of recipes) { %>
+
+                    <div class="each-recipe">
+                        
+                        <h3><%= recipe.recipeName %></h3>
+                        <h3><%= recipe.author %></h3>
+
+                        <!-- Gets name and quantity of each ingredient  -->
+                        <% for (let item of recipe.ingredients) { %>
+                        <h3><%= item.name %></h3>
+                        <h3><%= item.quantity %></h3>
+                        <% } %>
+
+                        <!-- Gets instructions and items used at this stage of instructions -->
+                        <% for (let item of recipe.instructions) { %>
+                        <h3><%= item.text %></h3>
+                        <h3><%= item.ingredients %></h3>
+                        <% } %>
+                        
+                    </div>
+                <% }  %>
+            </div>
+        </section>
+    </div>
+    
+</body>
+</html>

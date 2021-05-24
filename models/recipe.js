@@ -1,9 +1,10 @@
 const mongoose = require('mongoose')
 
-const RecipeSchema = mongoose.Schema({
+const RecipeSchema = new mongoose.Schema({
     recipeName: {
         type: String,
-        required: true
+        required: true,
+        unique: true,
     },
     author: {
         type: String,
@@ -15,9 +16,12 @@ const RecipeSchema = mongoose.Schema({
             type: String,
             required: true,
         },
-        quantity: String,
+        quantity: {
+            type: String,
+            required: true,
+        },
         notes: String,
-        optional: Boolean
+        optional: {type: Boolean, default: false}
     }],
     instructions: [{
         text: String,
