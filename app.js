@@ -7,6 +7,7 @@ const dotenv = require('dotenv')
 const app = express()
 const connectDB = require("./config/database");
 const morgan = require('morgan')
+const flash = require('express-flash')
 const homeRoutes = require('./routes/home')
 const recipeRoutes = require('./routes/recipe')
 
@@ -50,6 +51,8 @@ app.use(passport.session());
 app.use('/', homeRoutes)
 app.use('/recipes', recipeRoutes)
 
+// use express-flash to display errors and information
+app.use(flash())
 
 const PORT = process.env.PORT || 3000; 
 
