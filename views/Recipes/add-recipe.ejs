@@ -5,17 +5,111 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <!--  Bootstrap CSS -->
+    <link rel="stylesheet" href="../css/main.css">
 </head>
 <body>
-    <div class="add-recipe-form">
-        <form action="/:recipe-name" method="post">
-            <label for="recipe-name"></label>
-            <input type="text" id="recipe-name" name="recipe-name" placeholder="" required>
-            <label for="recipe-author"></label>
-            <input type="text" id="recipe-author" name="recipe-author" placeholder="" required>
-            <button type="submit">Submit a recipe</button>
-        </form>
+    <!-- Form to add custom recipes -->
+    <div class="container">
+        <section class="row my-5 add-recipe-form">
+            <form action="/add" method="POST" enctype="multipart/form-data">
+                <!-- top-level recipe info -->
+                <section class="row mb-5">
+                    <div class="row mb-3 justify-content-center">
+                        <div class="col-sm-3 m-3">
+                            <label class="form-label" for="recipeName">Recipe name</label>
+                            <input class="form-control" type="text" id="recipeName" name="recipeName" placeholder="" required>
+                        </div>
+                        <div class="col-sm-3 m-3">
+                            <label class="form-label" for="author">Author</label>
+                            <input class="form-control" type="text" id="author" name="author" placeholder="" required>
+                        </div>
+                        <div class="col-sm-3 m-3">
+                            <label class="form-label" for="image">Image</label>
+                            <input class="form-control" type="file" id="image" name="image" placeholder="" required>
+                        </div>
+                    </div>
+                    <div class="row mb-3 justify-content-center">
+                        <div class="m-3 col-sm-5">
+                            <label class="form-label" for="cuisine">Cuisine</label>
+                            <input class="form-control" type="text" id="cuisine" name="cuisine" placeholder="" required>
+                        </div>
+                        <div class="m-3 col-sm-5">
+                            <label class="form-label" for="recipeType">Recipe Type</label>
+                            <input class="form-control" type="text" id="recipeType" name="recipeType" placeholder="" required>
+                        </div>
+                        <div class="m-3 col-sm-5">
+                            <label class="form-label" for="specialDiet">Special Diet</label>
+                            <input class="form-control" type="text" id="specialDiet" name="specialDiet" placeholder="" required>
+                        </div>
+                        <div class="m-3 col-sm-5">
+                            <label class="form-label" for="allergens">Allergens</label>
+                            <input class="form-control" type="text" id="allergens" name="allergens" placeholder="" required>
+                        </div>
+                    </div>
+                </section>
+                <section class="row mb-5">
+                    <h2 class='display-2 mb-3'>Ingredients</h2>
+                    <!-- <div class="row mb-2"> -->
+                        <!-- Ingredient one -->
+                        <fieldset class="row mb-2 justify-content-center">
+                            <h5 class='h4'>Ingredient One</h5>
+                            <div class="col-sm-4 p-3">
+                                <label class="form-label" for="ingredient-1-quantity">Quantity</label>
+                                <input class="form-control" type="text" name="ingredient-1-quantity" id="ingredient-1-quantity" placeholder="1/2 small">
+                            </div>
+                            <div class="col-sm-4 p-3">
+                                <label class="form-label" for="ingredient-1-name">Name</label>
+                                <input class="form-control" type="text" name="ingredient-1-name" id="ingredient-1-name" placeholder="onion">
+                            </div>                            
+                            <div class="col-sm-4 p-3">
+                                <label class="form-label" for="ingredient-1-optional">Optional?</label>
+                                <select class="form-control" name="ingredient-1-optional" id="ingredient-1-optional">
+                                    <option value="Yes">Yes</option>
+                                    <option value="Yes">No</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-8 p-3">
+                                <label class="form-label" for="ingredient-1-notes">Notes</label>
+                                <textarea class="form-control" name="ingredient-1-notes" id="ingredient-1-notes" cols="30" rows="2" placeholder="Toss in oil until it slightly browns"></textarea>
+                            </div>
+                        </fieldset>
+                        <!-- Ingredient one end -->
+                    <!-- </div> -->
+                </section>
+                <section class="row mb-5">
+                    <h2 class='display-2'>Instructions</h2>
+                    <div class="col-10 p-3">
+                        <label class="form-label" for="instruction-1-notes">1.</label>
+                        <textarea class="form-control" name="instruction-1-notes" id="instruction-1-notes" cols="30" rows="2" placeholder="Chop mushrooms, peppers, and onions. Then toss into the pan over medium heat"></textarea>
+                    </div>
+                </section>
+                <button type="submit">Submit a recipe</button>
+            </form>
+        </section>
+        <section class="row my-5">
+            <section class="card-group">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">Recipe Name</h3>
+                        <p class="card-text">This is your first delicious recipe</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">Recipe Name</h3>
+                        <p class="card-text">This is your second delicious recipe</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">Recipe Name</h3>
+                        <p class="card-text">This is your third delicious recipe</p>
+                    </div>
+                </div>
+            </section>
+        </section>
     </div>
-    <%- include('partials/footer') -%>
+    <%- include('../partials/footer') -%>
 </body>
 </html>
