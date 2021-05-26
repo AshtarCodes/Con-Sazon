@@ -5,36 +5,44 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Con Sazon | Login</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../css/main.css">
 </head>
 <body>
-    <h1>Welcome to Con Sazon</h1>
-    <p>Flavorful, real food. Deep Roots. Periodt.</p>
-    <div class="login">
-        <form action="/login" method="POST">
-            <div class="mb-3">
-              <label for="exampleInputEmail1" class="form-label"
-                >Email address</label
-              >
-              <input
-                type="email"
-                class="form-control"
-                id="exampleInputEmail1"
-                aria-describedby="emailHelp"
-                name="email"
-              />
-            </div>
-            <div class="mb-3">
-              <label for="exampleInputPassword1" class="form-label">Password</label>
-              <input
-                type="password"
-                class="form-control"
-                id="exampleInputPassword1"
-                name="password"
-              />
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </form>
-        <a href="/sign-up">New here? Sign Up</a>
-    </div>
+    <main class="container">
+      <div class="row justify-content-center">
+        <section class="col-6 mt-5">
+          <h1>Welcome to Con Sazon</h1>
+          <p>Flavorful, real food. Rooted in culture. Period.</p>
+          <div class="login">
+              <form action="/login" method="POST">
+                  <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label"
+                      >Email address</label
+                    >
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="exampleInputEmail1"
+                      aria-describedby="emailHelp"
+                      name="email"
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Password</label>
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="exampleInputPassword1"
+                      name="password"
+                    />
+                  </div>
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+              <a href="/sign-up">New here? Sign Up</a>
+          </div>
+        </section>
+      </div>
+    </main>
 </body>
 </html>

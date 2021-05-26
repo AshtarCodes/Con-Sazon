@@ -8,7 +8,7 @@ const recipeController = {
             const recipes = await Recipe.find({});
             console.log(recipes);
             if (Array.isArray(recipes)) {
-                res.render('Recipes/all-recipes.ejs', { recipes })
+                res.render('recipes/all-recipes.ejs', { recipes })
             } else {
                 res.send('Sorry, no recipes found.')
             }
@@ -29,7 +29,16 @@ const recipeController = {
         } catch (err) {
             console.error(err)
         }
-    }
+    },
+    getAddRecipe: async (req, res) => {
+        // let requestedRecipe =  req.params.recipe_name.toLowerCase().split('-').join(' ');
+        try {
+            res.render('recipes/add-recipe.ejs', { })           
+        } catch (err) {
+            console.error(err)
+        }
+    },
+
 }
 
 module.exports = recipeController

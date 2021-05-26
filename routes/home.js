@@ -13,6 +13,7 @@ Router.post("/login", authController.postLogin);
 // @desc Sign up page
 // @route GET /signup
 Router.get('/sign-up', ensureGuest, authController.getSignUp)
+// @route POST /signup
 Router.post("/sign-up", authController.postSignUp);
 
 // @desc Log out page
