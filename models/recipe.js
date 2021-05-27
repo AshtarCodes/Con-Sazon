@@ -21,17 +21,20 @@ const RecipeSchema = new mongoose.Schema({
             required: true,
         },
         notes: String,
-        optional: {type: Boolean, default: false}
+        optional: {type: String, default: 'no'}
     }],
     instructions: [{
         text: String,
-        ingredients: [String]
     }],
-    cuisine: [String],
-    specialDiet: [String],
-    allergens: [String],
-    recipeType: [String],
-    
+    cuisine: String,
+    specialDiet: String,
+    allergens: String,
+    recipeType: String,
+    cookTime: String,
+    prepTime: String,
+    totalTime: String,
+    description: String,
+    servings: String,    
 })
 
 
