@@ -1,3 +1,4 @@
+const flash = require('express-flash')
 const express = require('express')
 const mongoose = require("mongoose");
 const passport = require('passport')
@@ -7,7 +8,6 @@ const dotenv = require('dotenv')
 const app = express()
 const connectDB = require("./config/database");
 const morgan = require('morgan')
-const flash = require('express-flash')
 const homeRoutes = require('./routes/home')
 const recipeRoutes = require('./routes/recipe')
 
@@ -46,13 +46,13 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+// use express-flash to display errors and information
+app.use(flash())
 
 // routes
 app.use('/', homeRoutes)
 app.use('/recipes', recipeRoutes)
 
-// use express-flash to display errors and information
-app.use(flash())
 
 const PORT = process.env.PORT || 3000; 
 
