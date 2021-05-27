@@ -1,5 +1,6 @@
 const express = require('express')
 const Router = express.Router()
+const upload = require("../middleware/multer");
 const recipeController = require('../controllers/recipe')
 const { ensureGuest, ensureAuth } = require('../middleware/auth')
 
@@ -10,6 +11,10 @@ Router.get('/', recipeController.getAll)
 // @desc Add Recipe Page
 // @route GET /recipes/custom-recipes
 Router.get('/custom-recipes', ensureAuth, recipeController.getAddRecipe)
+
+// @desc Post add Recipe Page
+// @route POST /recipes/custom-recipes
+Router.post('/custom-recipes', ensureAuth, upload.single("image"), recipeController.postAddRecipe)
 
 // @desc Single Recipe Page
 // @route GET /recipes/:recipe_name
