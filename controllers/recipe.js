@@ -46,6 +46,7 @@ const recipeController = {
             const image = await cloudinary.uploader.upload(
                 req.file.path,
                 {
+                  folder: 'con_sazon_app',
                   transformation: [
                     {
                       crop: "scale",
@@ -59,10 +60,10 @@ const recipeController = {
               );
 
               const recipeData = await req.body;
-            
-                const ingredients = groupByProperty(recipeData, 'ingredient')
-                const instructions = groupByProperty(recipeData, 'instruction')
-
+              const ingredients = groupByProperty(recipeData, 'ingredient')
+              const instructions = groupByProperty(recipeData, 'instruction')
+              
+              console.log('BODY: ', req.body)
               console.log(`MY INGREDIENTS! : `, ingredients)
               console.log(`MY INSTRUCTIONS! : `, instructions)
 

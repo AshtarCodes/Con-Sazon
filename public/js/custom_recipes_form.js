@@ -69,6 +69,7 @@ function addIngredientField (){
     
     const optionalNo = document.createElement('option')
     optionalNo.setAttribute('value','no')
+    optionalNo.setAttribute('selected','true')
     optionalNo.innerText = 'No'
     
     const optionalYes = document.createElement('option')
