@@ -84,7 +84,7 @@
                     <!-- <div class="row mb-2"> -->
                         <!-- Ingredient one -->
                         <fieldset class="row mb-2 justify-content-center">
-                            <h5 class='h4'>Ingredient One</h5>
+                            <h5 class='h4'>Ingredient 1</h5>
                             <div class="col-sm-4 p-3">
                                 <label class="form-label" for="ingredient-1-quantity">Quantity</label>
                                 <input class="form-control" type="text" name="ingredient-1-quantity" id="ingredient-1-quantity" placeholder="1/2 small">
@@ -108,7 +108,7 @@
                         <!-- Ingredient one end -->
                         <!-- Ingredient TWO START -->
                         <fieldset class="row mb-2 justify-content-center">
-                            <h5 class='h4'>Ingredient Two</h5>
+                            <h5 class='h4'>Ingredient 2</h5>
                             <div class="col-sm-4 p-3">
                                 <label class="form-label" for="ingredient-2-quantity">Quantity</label>
                                 <input class="form-control" type="text" name="ingredient-2-quantity" id="ingredient-2-quantity" placeholder="1/2 small">
@@ -132,7 +132,7 @@
                         <!-- Ingredient TWO end -->
                         <!-- Ingredient THREE START -->
                         <fieldset  class="row mb-2 justify-content-center">
-                            <h5 class='h4'>Ingredient Three</h5>
+                            <h5 class='h4'>Ingredient 3</h5>
                             <div class="col-sm-4 p-3">
                                 <label class="form-label" for="ingredient-3-quantity">Quantity</label>
                                 <input class="form-control" type="text" name="ingredient-3-quantity" id="ingredient-3-quantity" placeholder="1/2 small">
@@ -163,7 +163,7 @@
                     <!-- </div> -->
                 </section>
                 <!-- INSTRUCTIONS SECTION -->
-                <section class="row mb-5">
+                <section id="instructionsSection" class="row mb-5">
                     <h2 class='display-2'>Instructions</h2>
                     <!-- iNSTRUCTION ONE START -->
                     <div class="col-10 p-3">
@@ -172,13 +172,19 @@
                     </div>
                     <!-- iNSTRUCTION TWO START -->
                     <div class="col-10 p-3">
-                        <label class="form-label" for="instruction-2-text">1.</label>
+                        <label class="form-label" for="instruction-2-text">2.</label>
                         <textarea class="form-control" name="instruction-2-text" id="instruction-2-text" cols="30" rows="2" placeholder="Chop mushrooms, peppers, and onions."></textarea>
                     </div>
                     <!-- iNSTRUCTION THREE START -->
                     <div class="col-10 p-3">
-                        <label class="form-label" for="instruction-3-text">1.</label>
+                        <label class="form-label" for="instruction-3-text">3.</label>
                         <textarea class="form-control" name="instruction-3-text" id="instruction-3-text" cols="30" rows="2" placeholder="Chop mushrooms, peppers, and onions. Toss over medium heat..."></textarea>
+                    </div>
+                    <div id="addInstructionRow" class="row" >
+                        <div class="col-6">
+                            <button type='button' id='addInstructionBtn' class='btn btn-primary'><i class="fa fa-plus-circle" aria-hidden="true"></i>
+                            </button>
+                        </div>
                     </div>
                 </section>
                 <button type="submit">Submit a recipe</button>
