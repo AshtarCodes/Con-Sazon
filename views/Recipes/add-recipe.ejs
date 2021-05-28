@@ -79,7 +79,7 @@
                     </div>
                 </section>
                 <!-- INGREDIENTS SECTION -->
-                <section class="row mb-5">
+                <section class="row mb-5" id="ingredientsSection">
                     <h2 class='display-2 mb-3'>Ingredients</h2>
                     <!-- <div class="row mb-2"> -->
                         <!-- Ingredient one -->
@@ -131,7 +131,7 @@
                         </fieldset>
                         <!-- Ingredient TWO end -->
                         <!-- Ingredient THREE START -->
-                        <fieldset class="row mb-2 justify-content-center">
+                        <fieldset  class="row mb-2 justify-content-center">
                             <h5 class='h4'>Ingredient Three</h5>
                             <div class="col-sm-4 p-3">
                                 <label class="form-label" for="ingredient-3-quantity">Quantity</label>
@@ -154,9 +154,9 @@
                             </div>
                         </fieldset>
                         <!-- Ingredient THREE end -->
-                        <div class="row">
+                        <div id="addIngredientRow" class="row" >
                             <div class="col-6">
-                                <button type='button' class='btn btn-primary'><i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                <button type='button' id='addIngredientBtn' class='btn btn-primary'><i class="fa fa-plus-circle" aria-hidden="true"></i>
                                 </button>
                             </div>
                         </div>
@@ -209,5 +209,6 @@
         </section>
     </div>
     <%- include('../partials/footer') -%>
+    <script type='text/javascript' src="../js/custom_recipes_form.js"></script>
 </body>
 </html>
