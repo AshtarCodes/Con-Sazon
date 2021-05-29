@@ -21,14 +21,13 @@
                         <!-- prep/cook/total time -->
                       <% if (singleRecipe.totalTime) { %>
                         <div class="d-flex flex-column flex-md-row ">
-                            <p>Prep: <%= (singleRecipe.prepTime) != 'undefined' ? singleRecipe.prepTime : ''  %></p>
-                            <p>Cook: <%= (singleRecipe.cookTime) != 'undefined' ? singleRecipe.cookTime : ''  %></p>
-                            <p>Total: <%= (singleRecipe.totalTime) != 'undefined' ? singleRecipe.totalTime : ''  %></p>
+                            <p>Prep: <%= singleRecipe.prepTime %></p>
+                            <p>Cook: <%= singleRecipe.cookTime   %></p>
+                            <p>Total: <%= singleRecipe.totalTime %></p>
                         </div>
                       <% } %>
                         <p><% if (singleRecipe.cuisine) {%> Cuisine: <%= singleRecipe.cuisine %> <% } %> </p>
                         <p> Allergens: <%= singleRecipe.allergens != 'undefined' ? singleRecipe.allergens : 'none' %>  </p>
-
                     </div>      
             </div>
             <div class="row">
