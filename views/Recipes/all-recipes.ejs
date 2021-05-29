@@ -9,25 +9,17 @@
     <link rel="stylesheet" href="../css/main.css">
 </head>
 <body>
-    <div class="container">
-        <section class="content">
-            <h1>All Recipes</h1>
-            <div class="recipes-container">
+    <div class="container m-5">
+        <h1>All Recipes</h1>
+        <section class="content my-5">
+            <div class="row gx-5">
                 <% for (let recipe of recipes) { %>
-                    <div class="each-recipe">
+                    <div class="col-3">
+                        <div class="">
+                            <a href="/recipes/<%= recipe.path %>"><img class="img-fluid" src="<%= recipe.image %>" alt="image of recipe"></a>
+                        </div>
                         <h3><%= recipe.recipeName %></h3>
-                        <h3><%= recipe.author %></h3>
-                        <!-- Gets name and quantity of each ingredient  -->
-                        <% for (let item of recipe.ingredients) { %>
-                        <h3><%= item.name %></h3>
-                        <h3><%= item.quantity %></h3>
-                        <% } %>
-                        <!-- Gets instructions and items used at this stage of instructions -->
-                        <% for (let item of recipe.instructions) { %>
-                        <h3><%= item.text %></h3>
-                        <h3><%= item.ingredients %></h3>
-                        <% } %>
-                        
+                        <p><%= recipe.author %></p>
                     </div>
                 <% }  %>
             </div>

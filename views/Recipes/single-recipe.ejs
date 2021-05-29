@@ -9,34 +9,48 @@
     <link rel="stylesheet" href="../css/main.css">
 </head>
 <body>
-    <div class="container">
-        <section class="content">
-            <h1><%= recipes[0].recipeName %></h1>
-            <div class="recipes-container">
+    <div class="container ">
+        <main class="content my-5">
+            <div class="row justify-content-center d-flex flex-column flex-sm-row">                    
+                    <div class="col-10 col-sm-6">
+                        <div class="image"><img class="img-fluid" src="<%= singleRecipe.image %>" alt="image of recipe"></div>
+                    </div>  
+                    <div class="col-10 col-sm-6">
+                        <h1 class='display-6'><%= singleRecipe.recipeName %></h1>
+                        <p>by: <%= singleRecipe.author %></p>
+                        <!-- prep/cook/total time -->
+                      <% if (singleRecipe.totalTime) { %>
+                        <div class="d-flex flex-column flex-md-row ">
+                            <p>Prep: <%= (singleRecipe.prepTime) != 'undefined' ? singleRecipe.prepTime : ''  %></p>
+                            <p>Cook: <%= (singleRecipe.cookTime) != 'undefined' ? singleRecipe.cookTime : ''  %></p>
+                            <p>Total: <%= (singleRecipe.totalTime) != 'undefined' ? singleRecipe.totalTime : ''  %></p>
+                        </div>
+                      <% } %>
+                        <p><% if (singleRecipe.cuisine) {%> Cuisine: <%= singleRecipe.cuisine %> <% } %> </p>
+                        <p> Allergens: <%= singleRecipe.allergens != 'undefined' ? singleRecipe.allergens : 'none' %>  </p>
 
-                <% for (let recipe of recipes) { %>
-
-                    <div class="each-recipe">
-                        
-                        <h3><%= recipe.recipeName %></h3>
-                        <h3><%= recipe.author %></h3>
-
-                        <!-- Gets name and quantity of each ingredient  -->
-                        <% for (let item of recipe.ingredients) { %>
-                        <h3><%= item.name %></h3>
-                        <h3><%= item.quantity %></h3>
-                        <% } %>
-
-                        <!-- Gets instructions and items used at this stage of instructions -->
-                        <% for (let item of recipe.instructions) { %>
-                        <h3><%= item.text %></h3>
-                        <h3><%= item.ingredients %></h3>
-                        <% } %>
-                        
-                    </div>
-                <% }  %>
+                    </div>      
             </div>
-        </section>
+            <div class="row">
+                <div>
+                    <p><%= singleRecipe.description %></p>
+                </div>
+                <div class="d-flex flex-column flex-md-row">
+                    <div class="col-12 col-sm-6">
+                        <h2>Ingredients</h2>
+                        <% for (item of singleRecipe.ingredients) { %>
+                            <p><span><%= item.quantity %></span> <%= item.name %> <span><% if (item.optional == 'yes') { %> (optional) <% } %></span><span><% item.notes %></span></p>
+                        <% } %>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <h2>Instructions</h2>
+                        <% for (item of singleRecipe.instructions) { %>
+                            <p><%= item.text %></p>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </main>
     </div>
     <%- include('../partials/footer') -%>
 </body>

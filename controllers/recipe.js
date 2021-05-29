@@ -9,6 +9,7 @@ const recipeController = {
         try {
             const recipes = await Recipe.find({});
             console.log(recipes);
+            
             if (Array.isArray(recipes)) {
                 res.render('recipes/all-recipes.ejs', { recipes })
             } else {
@@ -22,12 +23,13 @@ const recipeController = {
         
         console.log("RECIPE NAME: ", req.params.recipe_name.toLowerCase())
 
-        let requestedRecipe =  req.params.recipe_name.toLowerCase().split('-').join(' ');
+        let requestedRecipe =  req.params.recipe_name.toLowerCase()
         try {
-            const recipes = await Recipe.find({ recipeName: requestedRecipe });
-            console.log(`MY RECIPE: `, recipes[0]);
+            const recipes = await Recipe.find({ path: requestedRecipe });
+            
+            let [singleRecipe] = recipes 
 
-            res.render('recipes/single-recipe.ejs', { recipes })           
+            res.render('recipes/single-recipe.ejs', { singleRecipe })           
         } catch (err) {
             console.error(err)
         }
@@ -64,13 +66,15 @@ const recipeController = {
               const instructions = groupByProperty(recipeData, 'instruction')
               
               console.log('BODY: ', req.body)
-              console.log(`MY INGREDIENTS! : `, ingredients)
-              console.log(`MY INSTRUCTIONS! : `, instructions)
+              
+              const recipePath = recipeData.recipeName.toLowerCase().trim().split(' ').join('-')
 
               const recipe = await Recipe.create({
                 recipeName: recipeData.recipeName,
+                path: recipePath,
                 author: recipeData.author,
-                image: image.public_id,
+                image: image.secure_url,
+                cloudinaryId: image.public_id,
                 cuisine: recipeData.cuisine,
                 recipeType: recipeData.recipeType,
                 specialDiet: recipeData.specialDiet,

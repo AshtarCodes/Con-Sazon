@@ -6,11 +6,13 @@ const RecipeSchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
+    path: String,
     author: {
         type: String,
         required: true
     },
     image: String,
+    cloudinaryId: String,
     ingredients: [{
         name: {
             type: String,
