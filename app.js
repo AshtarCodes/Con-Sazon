@@ -10,6 +10,7 @@ const connectDB = require("./config/database");
 const morgan = require('morgan')
 const homeRoutes = require('./routes/home')
 const recipeRoutes = require('./routes/recipe')
+const authRoutes = require('./routes/auth')
 
 
 // Load env variables into app
@@ -50,7 +51,8 @@ app.use(passport.session());
 app.use(flash())
 
 // routes
-app.use('/', homeRoutes)
+app.use('/', authRoutes)
+app.use('/dashboard', homeRoutes)
 app.use('/recipes', recipeRoutes)
 
 
