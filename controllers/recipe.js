@@ -62,6 +62,8 @@ const recipeController = {
               );
 
               const recipeData = await req.body;
+
+              // returns a list of nested objects with data grouped by the property. e.g for ingredient, returns [ {name, quantity, optional, notes} ]
               const ingredients = groupByProperty(recipeData, 'ingredient')
               const instructions = groupByProperty(recipeData, 'instruction')
               
