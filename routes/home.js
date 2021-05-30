@@ -6,6 +6,11 @@ const homeController = require('../controllers/home')
 
 // @desc Dashboard page
 // @route GET /dashboard
-Router.get('/dashboard', ensureAuth, homeController.getDashboard)
+Router.get('/', ensureAuth, homeController.getDashboard)
+
+// @desc Dashboard page
+// @route GET /dashboard
+Router.post('/meal-plan', ensureAuth, homeController.postToMealPlan)
+
 
 module.exports = Router;
