@@ -1,11 +1,12 @@
 const flash = require('express-flash')
 const express = require('express')
+const app = express()
 const mongoose = require("mongoose");
 const passport = require('passport')
 const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
+const methodOverride = require('method-override')
 const dotenv = require('dotenv')
-const app = express()
 const connectDB = require("./config/database");
 const morgan = require('morgan')
 const homeRoutes = require('./routes/home')
@@ -32,6 +33,9 @@ app.use(express.json())
 if(process.env.NODE_ENV = 'development'){
     app.use(morgan('dev'))
 }
+
+// use forms for put & delete
+app.use(methodOverride("_method"))
 
 // Setup Sessions - stored in MongoDB
 app.use(
