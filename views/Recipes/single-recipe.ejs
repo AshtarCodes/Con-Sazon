@@ -13,10 +13,12 @@
         <main class="content my-5">
             <div class="row justify-content-center d-flex flex-column flex-sm-row">                    
                     <div class="col-10 col-sm-6">
-                        <div class="image"><img class="img-fluid" src="<%= singleRecipe.image %>" alt="image of recipe"></div>
+                        <div class="image">
+                            <img class="img-fluid" src="<%= singleRecipe.image %>" alt="image of recipe">
+                        </div>
                     </div>  
                     <div class="col-10 col-sm-6">
-                        <h1 class='display-6'><%= singleRecipe.recipeName %></h1>
+                        <h1 data-id="<%= singleRecipe._id %>" class='display-6'><%= singleRecipe.recipeName %></h1>
                         <p>by: <%= singleRecipe.author %></p>
                         <!-- prep/cook/total time -->
                       <% if (singleRecipe.totalTime) { %>

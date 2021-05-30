@@ -15,10 +15,10 @@
             <div class="row gx-5">
                 <% for (let recipe of recipes) { %>
                     <div class="col-3">
-                        <div class="">
+                        <div>
                             <a href="/recipes/<%= recipe.path %>"><img class="img-fluid" src="<%= recipe.image %>" alt="image of recipe"></a>
                         </div>
-                        <h3><%= recipe.recipeName %></h3>
+                        <h3 data-id="<%= recipe._id %>"><%= recipe.recipeName %></h3>
                         <p><%= recipe.author %></p>
                     </div>
                 <% }  %>
