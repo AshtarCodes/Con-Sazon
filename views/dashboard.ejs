@@ -9,14 +9,21 @@
     <link rel="stylesheet" href="../css/main.css">
 </head>
 <body>
-    <div class="row my-4 mx-4">
-        <h3>Welcome <%= user.profile.name %></h3>
-    </div>
-    <div class="row my-4 mx-4 justify-content-left">
-        <div class="col-6">
-            <a class="btn btn-primary" href="/recipes/custom-recipes">Add custom recipes</a>
+    <section class="container-fluid">
+        <div class="row my-4 mx-4">
+            <h3>Welcome <%= user.profile.name %></h3>
         </div>
-    </div>
+        <div class="row my-4 mx-4 justify-content-left">
+            <div class="col-3">
+                <nav>
+                    <a class="btn btn-primary" href="/recipes/custom-recipes">Add custom recipes</a>
+                    <form class='unstyled' action="/dashboard/meal-plan" method="POST">
+                        <button type="submit" class="btn btn-secondary">Create a meal plan</button>
+                    </form>
+                </nav>
+            </div>
+        </div>
+    </section>
     <%- include('./partials/footer') -%>
 </body>
 </html>

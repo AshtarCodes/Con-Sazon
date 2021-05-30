@@ -8,9 +8,12 @@ const homeController = require('../controllers/home')
 // @route GET /dashboard
 Router.get('/', ensureAuth, homeController.getDashboard)
 
-// @desc Dashboard page
-// @route GET /dashboard
-Router.post('/meal-plan', ensureAuth, homeController.postToMealPlan)
+// @desc Meal Plan page
+// @route POST /dashboard/meal-plan
+Router.post('/meal-plan', ensureAuth, homeController.createMealPlan)
 
+// @desc Meal Plan page
+// @route PUT /dashoard/meal-plan
+Router.put('/meal-plan/:recipe-path/add?_method', ensureAuth, homeController.postToMealPlan)
 
 module.exports = Router;
