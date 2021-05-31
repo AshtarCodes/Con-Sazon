@@ -29,7 +29,7 @@
                             <a href="/recipes/<%= recipe.path %>"><img class="img-fluid" src="<%= recipe.image %>" alt="image of recipe"></a>
                         </div>
                         
-                        <form action="/dashboard/meal-plan/<%=recipe.path%>/add?_method=PUT" method="post">
+                        <form name="addToMealPlan" action="/dashboard/meal-plan/<%=recipe._id%>/add?_method=PATCH" method="post">
                             <button type="submit" class="btn btn-outline-primary"><i class="fas fa-plus"></i></button>
                         </form>
                         
