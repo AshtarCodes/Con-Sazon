@@ -5,10 +5,44 @@ const Recipe = require('../models/Recipe')
 const moment = require('moment')
 const { ObjectId } = require('bson')
 
+
+/* User flow from Dashboard: 
+*   - Btn 1: "View current meal plan" (GET controller.viewConfirmedMealPlan -rd-to- /dashboard/meal-plan/:mealPlanId/view) 
+*     - check if most recent plan is confirmed  
+*       - if plan is confirmed, display it
+*       - else, redirect to selections view (/dashboard/meal-plan) where it can be edited and/or confirmed
+*         - click Confirm Btn -> PATCH controller.confirmMealPlan -rd-to- /dashboard/meal-plan/:mealPlanId/view) 
+*   - Btn 2: "create new plan" requests: POST /dashboard/meal-plan/create -using- controller.createMealPlan 
+*     - if existing unconfirmed plan, just redirect to GET /dashboard/meal-plan
+*     - else if no unconfirmed plans, then creates new plan + redirects to GET -> /dashboard/meal-plan  
+*       - GET -> /dashboard/meal-plan -- only displays most recent unconfirmed meal plan
+*         - optionally, allow an option to "Clear all selections" next to confirm selections. Make user confirm submission first.
+* 
+*   - *!*!*Edge case / potential Bug*!*!*: manual GET to /dashboard/meal-plan
+*     - add if statement were it tells person to create meal plan with Btn 
+*/
+
 const homeController = {
-    getDashboard: (req, res) => {
-        console.log(req.user)
-        res.render('dashboard', { user: req.user })
+    getDashboard: async (req, res) => {
+
+        try {
+            const user = req.user;
+    
+            const lastUpdatedMealPlan = await MealPlan.find({
+                userId: req.user._id,
+            })
+            .sort({ createdAt: -1}).populate('week');
+            
+            let mealPlan = lastUpdatedMealPlan[0]
+            console.log(`last updated plan 1: `, lastUpdatedMealPlan[0]);
+            // console.log(`last updated plan 1: `, lastUpdatedMealPlan[0]);
+            // console.log(`last updated plan 2: `, lastUpdatedMealPlan[1]);
+            
+            res.render('dashboard', { user, mealPlan })
+            
+        } catch (error) {
+            console.error(error);
+        }
     },
     getMealPlan: async (req, res) => {
         try {
@@ -18,30 +52,32 @@ const homeController = {
             // Find the logged in user
             const {user} = req.user;
 
-            // CRITICAL: How to handle a confirmed meal plan?
-            // Is there a recent UNCONFIRMED meal plan? Yes, then retrieve it. Else, create a new one. 
+            
            // TODO: let user know they must either confirm previous meal plan, or delete it, in order to create a new one. 
-           let threeDaysAgo = moment().subtract(3,'d').format('YYYY-MM-DD')
+           /* 
+           * - Find most recent unconfirmed meal plan
+           *   - 
+           */
            const hasMealPlan = await MealPlan.find({
             userId: req.user._id,
             confirmDate: {$type: 10}, 
         })
         .sort({ createdAt: -1});
 
-           let mealPlan
-
+           let mealPlan = hasMealPlan
+           console.log(`no ARRAY?: `,mealPlan); 
            if (hasMealPlan[0]){
                 mealPlan = hasMealPlan[0];
                 await mealPlan.populate('week').execPopulate();
                 console.log(`POPULATED: `, mealPlan);
+                console.log(mealPlan.populated('week'));
            } else {
-                mealPlan = await MealPlan.create({
-                    userId: req.user._id,
-                    week: [],
-                })
-                console.log(`created: `, mealPlan);
+                // mealPlan = await MealPlan.create({
+                //     userId: req.user._id,
+                //     week: [],
+                // })
+                // console.log(`created: `, mealPlan);                
             }
-            console.log(mealPlan.populated('week'));
             res.render('mealPlanActive/all-recipes', { recipes, mealPlan, user, msg: null})
 
         } catch (error) {
@@ -49,28 +85,29 @@ const homeController = {
         }
     },
     createMealPlan: async (req, res) => {
-       
-        // alternate: push each recipe id ref to an array on week. 
+         
        try {
-           // Find all recipes
-           const recipes = await Recipe.find({})
+          // Find all recipes
+          const recipes = await Recipe.find({})
            
-           // Find the logged in user
-           const {user} = req.user;
-
-           // Is there a recent meal plan (within last 3 days)? Yes, then retrieve it. Else, create a new one. 
-           // TODO: let user know they must either confirm previous meal plan, or delete it, in order to create a new one. 
-            let threeDaysAgo = moment().subtract(3,'d').format('YYYY-MM-DD')
-            const hasMealPlan = await MealPlan.find({
-                userId: req.user._id,
-                confirmDate: {$type: 10}, 
-            })
-            .sort({ createdAt: -1}).exec();
-
-           console.log(`FIND array: `, hasMealPlan);
+          // Find the logged in user
+          const {user} = req.user;
            
-           // check for an existing meal plan, otherwise create one. 
-           let mealPlan;
+          /* 
+          * - check for an existing unconfirmed meal plan
+          *   - if existing unconfirmed plan, just redirect to GET /dashboard/meal-plan
+          *   - else if no unconfirmed plans, then creates new plan + redirects to GET -> /dashboard/meal-plan 
+          */
+
+          const hasMealPlan = await MealPlan.find({
+              userId: req.user._id,
+              confirmDate: {$type: 10}, 
+          })
+          .sort({ createdAt: -1}).exec();
+
+          console.log(`FIND array: `, hasMealPlan);
+
+          let mealPlan;
            if (hasMealPlan[0]){
                mealPlan = hasMealPlan[0];
                console.log(`FIND DOC: `, mealPlan);
@@ -80,12 +117,13 @@ const homeController = {
                     week: [],
                 })
                 console.log(`CREATE DOC: `, mealPlan);
+                // res.render('mealPlanActive/all-recipes', {recipes, user, mealPlan, msg: null} )
             }
-           
-            res.render('mealPlanActive/all-recipes', {recipes, user, mealPlan, msg: null} )
-    } catch (err) {
-        console.error(err);
-    }
+            
+            res.redirect('/dashboard/meal-plan')
+        } catch (err) {
+            console.error(err);
+        }
     },
     addToMealPlan: async (req, res) => {
         // TODO: if recipe already in meal plan, then 'click' unselects and removes from meal plan. 
@@ -154,7 +192,7 @@ const homeController = {
         try {
             // retrieve mealPlanId and convert into ObjectId
             const mealPlanId = ObjectId(req.params.mealPlanId);
-    
+            // TODO: refactor into: find mealplan by id, if not confirmed then confirm, else redirect without updating
             const confirmed = await MealPlan.findOneAndUpdate({
                 _id: mealPlanId,            
             }, {
@@ -175,7 +213,7 @@ const homeController = {
     viewConfirmedMealPlan: async (req, res) => {
         try {
             // retrive meal plan id and 
-            const mealPlanId = ObjectId(req.params.mealPlanId);
+            const mealPlanId = await ObjectId(req.params.mealPlanId);
             
             // retrive confirmed meal plan by id
             const confirmedMealPlan = await MealPlan
@@ -188,7 +226,7 @@ const homeController = {
                 res.render('mealPlanActive/meal-plan', {mealPlan: confirmedMealPlan, user: req.user, msg: null})
             } else {
                 //REQ.FLASH ERROR?
-                res.redirect('/dashboard')
+                res.redirect('/dashboard/meal-plan')
             }            
         } catch (error) {
             console.error(error);

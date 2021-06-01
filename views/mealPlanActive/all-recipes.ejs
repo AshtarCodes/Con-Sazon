@@ -14,15 +14,30 @@
 </head>
 <body>
     <div class="container m-5">
-        <h1 class="display-6">Let's add to your Meal Plan</h1>
-        <main class="row my-5 gx-5">
+        <div class="row">
+            <div class="col-10">
+                <h1 class="display-6">Let's add to your Meal Plan</h1>
+            </div>
+        </div>
+        <main class="row my-5 gx-5">                    
+            <!-- add If to handle no unconfirmed plan -> create plan button -->
+            <% if (Array.isArray(mealPlan)){ %>
+                <div class="col-8">
+                    <p class="h1">You have a confirmed meal plan!</p>
+                    <p>Either create a new plan or go to the <span><a href="/dashboard">Dashboard</a></span> <wbr>to view your existing plan.</p>
+                    <div>
+                        <form class='unstyled' action="/dashboard/meal-plan/create" method="POST">
+                            <button type="submit" class="btn btn-secondary">Create a meal plan</button>
+                        </form>
+                    </div>
+                </div>
+            <% } else{ %>
             <!-- sidebar -->
             <section class="col-4 border rounded ">
                 <div class="row justify-content-center">
                     <p><%= msg %></p>
                 </div>
-                <div class="row justify-content-center">                    
-                    <!-- How to handle a confirmed meal plan? -->
+                <div class="row justify-content-center">
                         <% if(mealPlan.week.length === 0) { %>
                             <div>
                                 <p class="text-muted">No selections yet!</p>
@@ -51,30 +66,30 @@
                                     </form>
                                 </div>                            
                         <% } %>
-                   
-                </div>
-            </section>
-            <!-- main -->
-            <section class="col-8">
-                <div class="row gx-5">
-                    <!-- All recipes -->
-                    <% for (let recipe of recipes) { %>
-                        <div class="col-4">
-                            <div>
-                                <!-- change path to mealPlanActive single page -->
-                                <a href="meal-plan/<%= recipe._id %>"><img class="img-fluid border border-light rounded" src="<%= recipe.image %>" alt="image of recipe"></a>
-                            </div>
-                
-                            <form name="addToMealPlan" action="/dashboard/meal-plan/<%=recipe._id%>/add?_method=PATCH" method="post">
-                                <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-plus"></i></button>
-                            </form>
-                
+                    </div>
+                </section>
+                <!-- main -->
+                <section class="col-8">
+                    <div class="row gx-5">
+                        <!-- All recipes -->
+                        <% for (let recipe of recipes) { %>
+                            <div class="col-4">
+                                <div>
+                                    <!-- change path to mealPlanActive single page -->
+                                    <a href="meal-plan/<%= recipe._id %>"><img class="img-fluid border border-light rounded" src="<%= recipe.image %>" alt="image of recipe"></a>
+                                </div>
+                                
+                                <form name="addToMealPlan" action="/dashboard/meal-plan/<%=recipe._id%>/add?_method=PATCH" method="post">
+                                    <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-plus"></i></button>
+                                </form>
+                                
                             <h3 data-id="<%= recipe._id %>"><%= recipe.recipeName %></h3>
                             <p><%= recipe.author %></p>
                         </div>
                     <% }  %>
                 </div>
             </section>
+            <% } %>
         </main>      
     </div>
     <%- include('../partials/footer') -%>

@@ -6,22 +6,69 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Con Sazon | Dashboard</title>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
     <section class="container-fluid">
         <div class="row my-4 mx-4">
-            <h3>Welcome <%= user.profile.name %></h3>
+            <h3 class="display-3">Welcome <%= user.profile.name %></h3>
         </div>
         <div class="row my-4 mx-4 justify-content-left">
-            <div class="col-3">
-                <nav>
-                    <a class="btn btn-primary" href="/recipes/custom-recipes">Add custom recipes</a>
-                    <form class='unstyled' action="/dashboard/meal-plan" method="POST">
-                        <button type="submit" class="btn btn-secondary">Create a meal plan</button>
-                    </form>
-                </nav>
+            <div class="col-3 d-flex flex-column justify-content-around gy-3">
+                
+                    
+                        
+                            <a class="btn btn-primary" href="/recipes/custom-recipes">Add custom recipes</a>
+                        
+                        
+                            <form class='' action="/dashboard/meal-plan/<%= mealPlan._id %>/view" method="GET">
+                                <button type="submit" class="btn btn-secondary">View current meal plan</button>
+                            </form>
+                        
+                        
+                            <form class='' action="/dashboard/meal-plan/create" method="POST">
+                                <button type="submit" class="btn btn-secondary">Create a new meal plan</button>
+                            </form>
+                        
+                    
+                
             </div>
+            <section class="col-9 justify-content-center">
+                <div class="row justify-content-center">
+                
+                        <h2 class="h5">Current Meal Plan</h2>
+                       
+                        <% if(mealPlan.week.length === 0) { %>
+                            <div>
+                                <p class="text-muted">No selections yet!</p>
+                                <p class="text-muted">Click "view current meal plan"</p>
+                            </div>
+                        <% } else{ %>
+                            <% for (let meal of mealPlan.week) { %>
+                                <article class="col-5">
+                                    <div>
+                                        <!-- change path to mealPlanActive single page -->
+                                        <a href="meal-plan/<%= meal._id %>"><img class="img-fluid border border-light rounded" src="<%= meal.image %>" alt="image of recipe"></a>
+                                    </div>
+                                    <div>
+                                        <form name="removeFromMealPlan" action="/dashboard/meal-plan/<%=meal._id%>/remove?_method=PATCH" method="post">
+                                            <button class="btn btn-sm" type="submit"><i class="fas fa-trash-alt"></i></button>
+                                        </form>
+                                    </div>
+                                    <h3 class="h6" data-id="<%= meal._id %>"><%= meal.recipeName %></h3>
+                                    <p class="text-muted small"><%= meal.author %></p>
+                                </article>
+                                <% } %>
+                                <!-- meal plan confirmation -->
+                                <div class="">
+                                    <form class="justify-content-center" name="confirmMealPlan" action="/dashboard/meal-plan/<%= mealPlan._id %>/confirm?_method=PATCH" method="post">
+                                        <button class="btn btn-sm btn-outline-success" type="submit">Confirm Selections</button>
+                                    </form>
+                                </div>
+                        <% } %>
+                    
+                </div>
+            </section>
         </div>
     </section>
     <%- include('./partials/mealplan-footer') -%>

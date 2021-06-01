@@ -15,7 +15,7 @@ Router.get('/meal-plan', ensureAuth, homeController.getMealPlan)
 
 // @desc Meal Plan All Recipes page - create meal plan
 // @route POST /dashboard/meal-plan
-Router.post('/meal-plan', ensureAuth, homeController.createMealPlan)
+Router.post('/meal-plan/create', ensureAuth, homeController.createMealPlan)
 
 // @desc Meal Plan Single Recipe page
 // @route GET /dashboard/meal-plan/:recipeId
