@@ -10,7 +10,7 @@
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
     <div class="container ">
@@ -24,6 +24,17 @@
                     <div class="col-10 col-sm-6">
                         <h1 data-id="<%= singleRecipe._id %>" class='display-6'><%= singleRecipe.recipeName %></h1>
                         <p>by: <%= singleRecipe.author %></p>
+                        <div class="row">
+                            <!-- Add / Favorite / Print -->
+                            <span>
+                                <form class="d-inline-block" name="addToMealPlan" action="/dashboard/meal-plan/<%=singleRecipe._id%>/add?_method=PATCH" method="post">
+                                    <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fas fa-plus"></i></button>
+                                </form>
+                            </span>
+                            <span>
+                                <a href="/dashboard/meal-plan" class="btn btn-sm btn-outline-info">Back to selections</a>
+                            </span>
+                        </div>
                         <!-- prep/cook/total time -->
                       <% if (singleRecipe.totalTime) { %>
                         <div class="d-flex flex-column flex-md-row ">
@@ -32,8 +43,8 @@
                             <p>Total: <%= singleRecipe.totalTime %></p>
                         </div>
                       <% } %>
-                        <p><% if (singleRecipe.cuisine) {%> Cuisine: <%= singleRecipe.cuisine %> <% } %> </p>
-                        <p> Allergens: <%= singleRecipe.allergens != 'undefined' ? singleRecipe.allergens : 'none' %>  </p>
+                        <p><% if (singleRecipe.cuisine) {%> Cuisine: <%= singleRecipe.cuisine %> <% } %></p>
+                        <p> Allergens: <%= singleRecipe.allergens != 'undefined' ? singleRecipe.allergens : 'none' %></p>                        
                     </div>      
             </div>
             <div class="row">
@@ -57,6 +68,6 @@
             </div>
         </main>
     </div>
-    <%- include('../partials/footer') -%>
+    <%- include('../partials/mealplan-footer') -%>
 </body>
 </html>

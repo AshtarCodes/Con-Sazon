@@ -8,16 +8,25 @@ const homeController = require('../controllers/home')
 // @route GET /dashboard
 Router.get('/', ensureAuth, homeController.getDashboard)
 
-// @desc Meal Plan page
+// @desc Meal Plan All Recipes page
 // @route GET /dashboard/meal-plan
 Router.get('/meal-plan', ensureAuth, homeController.getMealPlan)
 
-// @desc Meal Plan page
+// @desc Meal Plan All Recipes page - create meal plan
 // @route POST /dashboard/meal-plan
 Router.post('/meal-plan', ensureAuth, homeController.createMealPlan)
 
-// @desc Meal Plan page
-// @route PUT /dashboard/meal-plan/:recipe-id/add
+// @desc Meal Plan Single Recipe page
+// @route GET /dashboard/meal-plan/:recipeId
+Router.get('/meal-plan/:recipeId', ensureAuth, homeController.getActiveSingleRecipe)
+
+// @desc Add to Meal Plan request 
+// @route PATCH /dashboard/meal-plan/:recipe-id/add
 Router.patch('/meal-plan/:recipeId/add', ensureAuth, homeController.addToMealPlan)
+
+// @desc Add to Meal Plan request 
+// @route PATCH /dashboard/meal-plan/:recipe-id/add
+Router.patch('/meal-plan/:recipeId/remove', ensureAuth, homeController.removeFromMealPlan)
+
 
 module.exports = Router;
