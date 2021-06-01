@@ -1,8 +1,7 @@
 # Meal plan roadmap and feature list 
 
 # Working On RIGHT NOW
-1. navigate to confirmed meal plan from dashboard
-2. populate ingredients in confirmed view
+- populate ingredients in confirmed view
 
 ## Working
 **Non-auth**
@@ -15,6 +14,7 @@
 - create meal plan and add or remove selections
 - displaying populated meal plan selections
 - confirming meal plan selections
+- navigate to confirmed meal plan from dashboard
 
 ## Left To Do
 ###### High priority
