@@ -18,6 +18,7 @@ const homeController = {
             // Find the logged in user
             const {user} = req.user;
 
+            // CRITICAL: How to handle a confirmed meal plan?
             // Is there a recent UNCONFIRMED meal plan? Yes, then retrieve it. Else, create a new one. 
            // TODO: let user know they must either confirm previous meal plan, or delete it, in order to create a new one. 
            let threeDaysAgo = moment().subtract(3,'d').format('YYYY-MM-DD')
@@ -30,9 +31,9 @@ const homeController = {
            let mealPlan
 
            if (hasMealPlan[0]){
-            mealPlan = hasMealPlan[0];
-           await mealPlan.populate('week').execPopulate();
-            console.log(`POPULATED: `, mealPlan);
+                mealPlan = hasMealPlan[0];
+                await mealPlan.populate('week').execPopulate();
+                console.log(`POPULATED: `, mealPlan);
            } else {
                 mealPlan = await MealPlan.create({
                     userId: req.user._id,
@@ -126,23 +127,72 @@ const homeController = {
         } catch (error) {
             console.error(error);
         }
-    }, removeFromMealPlan: async (req, res) => {
-        // get recipe ObjectId
-        const recipeId = ObjectId(req.params.recipeId)
-
-        // delete recipeId from MealPlan instance while MealPlan is not confirmed
-        await MealPlan.findOneAndUpdate({
-            userId: req.user._id,
-            confirmDate: {$type: 10}, 
-        }, {
-            $pull: {week: recipeId},
-            $currentDate: {updatedAt: true}
-        }, {
-            sort: { createdAt: -1},
-            new: true,
-        });     
-
-        res.redirect("/dashboard/meal-plan")
+    }, 
+    removeFromMealPlan: async (req, res) => {
+        try {
+            // get recipe ObjectId
+            const recipeId = ObjectId(req.params.recipeId)
+    
+            // delete recipeId from MealPlan instance while MealPlan is not confirmed
+            await MealPlan.findOneAndUpdate({
+                userId: req.user._id,
+                confirmDate: {$type: 10}, 
+            }, {
+                $pull: {week: recipeId},
+                $currentDate: {updatedAt: true}
+            }, {
+                sort: { createdAt: -1},
+                new: true,
+            });     
+    
+            res.redirect("/dashboard/meal-plan")            
+        } catch (error) {
+            console.error(error);
+        }
+    },
+    confirmMealPlan: async (req, res) => {
+        try {
+            // retrieve mealPlanId and convert into ObjectId
+            const mealPlanId = ObjectId(req.params.mealPlanId);
+    
+            const confirmed = await MealPlan.findOneAndUpdate({
+                _id: mealPlanId,            
+            }, {
+                $currentDate: {updatedAt: true},
+                $currentDate: {confirmDate: true}
+            }, {
+                sort: { createdAt: -1},
+                new: true,
+            });
+    
+            console.log(`CONFIRMED PLAN? `,confirmed);
+    
+            res.redirect(`/dashboard/meal-plan/${mealPlanId}/view`)            
+        } catch (error) {
+            console.error(error);
+        }
+    },
+    viewConfirmedMealPlan: async (req, res) => {
+        try {
+            // retrive meal plan id and 
+            const mealPlanId = ObjectId(req.params.mealPlanId);
+            
+            // retrive confirmed meal plan by id
+            const confirmedMealPlan = await MealPlan
+            .findById(mealPlanId)
+            .populate('week');
+            
+            console.log(`viewConfirm: `, confirmedMealPlan);
+            // res.send('going to confirmed view page')
+            if (confirmedMealPlan.confirmDate){
+                res.render('mealPlanActive/meal-plan', {mealPlan: confirmedMealPlan, user: req.user, msg: null})
+            } else {
+                //REQ.FLASH ERROR?
+                res.redirect('/dashboard')
+            }            
+        } catch (error) {
+            console.error(error);
+        }
     }
 };
 

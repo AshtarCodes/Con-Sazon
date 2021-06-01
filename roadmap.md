@@ -1,23 +1,24 @@
 # Meal plan roadmap and feature list 
 
-# RIGHT NOW
-1. delete from meal selections
+# Working On RIGHT NOW
+1. navigate to confirmed meal plan from dashboard
+2. populate ingredients in confirmed view
 
 ## Working
 **Non-auth**
 - all recipes
 - single recipe
 
-**Auth**
+**require Auth**
 - local auth
 - dashboard
-- create meal plan and add recipes
+- create meal plan and add or remove selections
+- displaying populated meal plan selections
+- confirming meal plan selections
 
 ## Left To Do
 ###### High priority
-- confirming meal plan selections
 - validation of confirmed vs unconfirmed meal plans
-- displaying populated meal plan selections
 - aggregating shopping list based on selections
 - partial for navigating around mealPlanActive
 ###### medium priority

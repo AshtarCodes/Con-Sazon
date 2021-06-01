@@ -21,29 +21,37 @@
                 <div class="row justify-content-center">
                     <p><%= msg %></p>
                 </div>
-                <div class="row justify-content-center">
-                    <% if(mealPlan.week.length === 0) { %>
-                        <div>
-                            <p class="text-muted">No selections yet!</p>
-                            <p class="text-muted">Click the plus sign (+) to add recipes</p>
-                        </div>
-                    <% } else{ %>
-                        <% for (let meal of mealPlan.week) { %>
-                            <article class="col-5">
+                <div class="row justify-content-center">                    
+                    <!-- How to handle a confirmed meal plan? -->
+                        <% if(mealPlan.week.length === 0) { %>
+                            <div>
+                                <p class="text-muted">No selections yet!</p>
+                                <p class="text-muted">Click the plus sign (+) to add recipes</p>
+                            </div>
+                        <% } else{ %>
+                            <% for (let meal of mealPlan.week) { %>
+                                <article class="col-5">
+                                    <div>
+                                        <!-- change path to mealPlanActive single page -->
+                                        <a href="meal-plan/<%= meal._id %>"><img class="img-fluid border border-light rounded" src="<%= meal.image %>" alt="image of recipe"></a>
+                                    </div>
+                                    <div>
+                                        <form name="removeFromMealPlan" action="/dashboard/meal-plan/<%=meal._id%>/remove?_method=PATCH" method="post">
+                                            <button class="btn btn-sm" type="submit"><i class="fas fa-trash-alt"></i></button>
+                                        </form>
+                                    </div>
+                                    <h3 class="h6" data-id="<%= meal._id %>"><%= meal.recipeName %></h3>
+                                    <p class="text-muted small"><%= meal.author %></p>
+                                </article>
+                                <% } %>
+                                <!-- meal plan confirmation -->                           
                                 <div>
-                                    <!-- change path to mealPlanActive single page -->
-                                    <a href="meal-plan/<%= meal._id %>"><img class="img-fluid border border-light rounded" src="<%= meal.image %>" alt="image of recipe"></a>
-                                </div>
-                                <div>
-                                    <form name="removeFromMealPlan" action="/dashboard/meal-plan/<%=meal._id%>/remove?_method=PATCH" method="post">
-                                        <button class="btn btn-sm" type="submit"><i class="fas fa-trash-alt"></i></button>
+                                    <form name="confirmMealPlan" action="/dashboard/meal-plan/<%= mealPlan._id %>/confirm?_method=PATCH" method="post">
+                                        <button class="btn btn-sm btn-outline-success" type="submit">Confirm Selections</button>
                                     </form>
-                                </div>
-                                <h3 class="h6" data-id="<%= meal._id %>"><%= meal.recipeName %></h3>
-                                <p class="text-muted small"><%= meal.author %></p>
-                            </article>
+                                </div>                            
                         <% } %>
-                    <% } %>
+                   
                 </div>
             </section>
             <!-- main -->
