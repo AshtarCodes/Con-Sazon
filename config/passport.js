@@ -1,7 +1,6 @@
 const passport = require('passport');
 const refresh = require('passport-oauth2-refresh');
 const LocalStrategy  = require('passport-local').Strategy;
-const TwitterStrategy  = require('passport-twitter').Strategy; // need to implement
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const _ = require('lodash');
 const moment = require('moment');
