@@ -26,7 +26,7 @@ const authController = {
       
         if (validationErrors.length) {
           req.flash("errors", validationErrors);
-          return res.redirect("../sign-up");
+          return res.redirect("/sign-up");
         }
         req.body.email = validator.normalizeEmail(req.body.email, {
           gmail_remove_dots: false,
@@ -48,7 +48,7 @@ const authController = {
               req.flash("errors", {
                 msg: "Account with that email address or username already exists.",
               });
-              return res.redirect("../sign-up");
+              return res.redirect("/sign-up");
             }
             user.save((err) => {
               if (err) {

@@ -17,9 +17,11 @@
             <div class="col-3 gy-3">
                 <div class="container-fluid">
                     <a class="btn btn-primary mb-3" href="/recipes/custom-recipes">Add custom recipes</a>
+                    <% if (mealPlan) { %>
                     <form class='mb-3' action="/dashboard/meal-plan/<%= mealPlan._id %>/view" method="GET">
                         <button type="submit" class="btn btn-secondary">View current meal plan</button>
                     </form>
+                    <% } %>
                     <form class='' action="/dashboard/meal-plan/create" method="POST">
                         <button type="submit" class="btn btn-secondary">Create a new meal plan</button>
                     </form>
@@ -27,7 +29,12 @@
             </div>
             <section class="col-9 justify-content-center">
                 <div class="row justify-content-center">
-                
+                    <% if (!mealPlan) { %>
+                        <div>
+                            <p class="text-muted">No meal plans yet!</p>
+                            <p class="text-muted">Click "create a meal plan"</p>
+                        </div>
+                    <% } else{ %>                    
                         <h2 class="h5">Current Meal Plan</h2>
                        
                         <% if(mealPlan.week.length === 0) { %>
@@ -60,7 +67,7 @@
                                 </div>
                                 <% } %>
                         <% } %>
-                    
+                    <% } %>
                 </div>
             </section>
         </div>

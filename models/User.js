@@ -13,6 +13,7 @@ const userSchema = new mongoose.Schema({
   google: String,  
   tokens: Array,
   favoriteRecipes: Array,
+  userName: { type: String, unique: true },
 
   profile: {
     name: String,
