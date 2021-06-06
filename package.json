@@ -21,6 +21,7 @@
     "express": "^4.17.1",
     "express-flash": "0.0.2",
     "express-session": "^1.17.2",
+    "mathjs": "^9.4.2",
     "method-override": "^3.0.0",
     "moment": "^2.29.1",
     "mongodb": "^3.6.7",
