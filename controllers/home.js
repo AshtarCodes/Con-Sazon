@@ -31,11 +31,11 @@ const homeController = {
             const lastUpdatedMealPlan = await MealPlan.find({
                 userId: req.user._id,
             })
-            .sort({ createdAt: -1}).populate('week');
+            .sort({ updatedAt: -1}).populate('week');
             
             let mealPlan = lastUpdatedMealPlan[0]
             console.log(`last updated plan 1: `, lastUpdatedMealPlan[0]);
-            // console.log(`last updated plan 1: `, lastUpdatedMealPlan[0]);
+            console.log(`All plans: `, lastUpdatedMealPlan);
             // console.log(`last updated plan 2: `, lastUpdatedMealPlan[1]);
             
             res.render('dashboard', { user, mealPlan })
@@ -215,19 +215,41 @@ const homeController = {
             // retrive meal plan id and 
             const mealPlanId = await ObjectId(req.params.mealPlanId);
             
-            // retrive confirmed meal plan by id
+            // retrieve confirmed meal plan by id
             const confirmedMealPlan = await MealPlan
             .findById(mealPlanId)
-            .populate('week');
+            .populate('week')
+            .lean();
             
             console.log(`viewConfirm: `, confirmedMealPlan);
-            // res.send('going to confirmed view page')
+            let allIngredients = confirmedMealPlan.week
+            .map(o => o.ingredients)
+            .flat()
+            .reduce((acc, {name, quantity}) => {
+              if(!acc[name]){
+                acc[name] = []
+              }
+              acc[name].push(quantity)
+              return acc;
+            }, {});
+            console.log(`ingredients: `, allIngredients );
+            
+            // If confirmed, continue. else, redirect 
             if (confirmedMealPlan.confirmDate){
                 res.render('mealPlanActive/meal-plan', {mealPlan: confirmedMealPlan, user: req.user, msg: null})
             } else {
                 //REQ.FLASH ERROR?
                 res.redirect('/dashboard/meal-plan')
-            }            
+            }     
+            
+            /* How to get a sum of all ingredient quantities
+            Possible approaches:
+            1. populate recipe docs from mealPlan.week. Then use aggregate pipeline to add all quantities of each ingredient, without duplicates. 
+            2. populate, then use .lean(), then manipulate in JS.             
+            Steps
+            1. push all recipe.ingredients arrays to a new array and flatten
+            2. group ingredient objects by name and sum their quantities 
+            */
         } catch (error) {
             console.error(error);
         }
