@@ -48,7 +48,7 @@
                                 <article class="col-5">
                                     <div>
                                         <!-- change path to mealPlanActive single page -->
-                                        <a href="meal-plan/<%= meal._id %>"><img class="img-fluid border border-light rounded" src="<%= meal.image %>" alt="image of recipe"></a>
+                                        <a href="/dashboard/meal-plan/<%= meal._id %>"><img class="img-fluid border border-light rounded" src="<%= meal.image %>" alt="image of recipe"></a>
                                     </div>
                                     <div>
                                         <form name="removeFromMealPlan" action="/dashboard/meal-plan/<%=meal._id%>/remove?_method=PATCH" method="post">
@@ -76,7 +76,7 @@
                             <div class="col-4">
                                 <div>
                                     <!-- change path to mealPlanActive single page -->
-                                    <a href="meal-plan/<%= recipe._id %>"><img class="img-fluid border border-light rounded" src="<%= recipe.image %>" alt="image of recipe"></a>
+                                    <a href="/dashboard/meal-plan/<%= recipe._id %>"><img class="img-fluid border border-light rounded" src="<%= recipe.image %>" alt="image of recipe"></a>
                                 </div>
                                 
                                 <form name="addToMealPlan" action="/dashboard/meal-plan/<%=recipe._id%>/add?_method=PATCH" method="post">
