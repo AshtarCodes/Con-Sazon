@@ -47,7 +47,7 @@
                                 <article class="col-3">
                                     <div>
                                         <!-- change path to mealPlanActive single page -->
-                                        <a href="meal-plan/<%= meal._id %>"><img class="img-fluid border border-light rounded" src="<%= meal.image %>" alt="image of recipe"></a>
+                                        <a href="/dashboard/meal-plan/<%= meal._id %>"><img class="img-fluid border border-light rounded" src="<%= meal.image %>" alt="image of recipe"></a>
                                     </div>
                                     <div>
                                         <form name="removeFromMealPlan" action="/dashboard/meal-plan/<%=meal._id%>/remove?_method=PATCH" method="post">
