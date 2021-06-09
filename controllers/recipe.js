@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const Recipe = require('../models/Recipe')
 const cloudinary = require('../middleware/cloudinary')
 const { groupByProperty } = require('../middleware/customFunctions')
+const {parseIngredients} = require('../middleware/zestful')
 
 
 const recipeController = {
@@ -43,7 +44,20 @@ const recipeController = {
         }
     },
     postAddRecipe: async (req, res) => {
-       
+       /* refactoring to include an ingredient parser API
+       *  1. Get ingredients and instructions as a string, and split by newlines
+       *  2. send array of ingredients to api endpoint and get a mixed object back (note to change model)
+       *  3. save this object in the database
+       *  4. use it to display in recipe views, and in shopping list
+       * 
+       * Things to update
+       * add-recipe form - done
+       * recipe model
+       * postAddRecipe controller
+       * single-recipe views
+       * confirmedMealPlan view
+       * - try the format quantity for the front end, and use Math.js in the backend to add ingredient quantities. 
+       */
         try {
             const image = await cloudinary.uploader.upload(
                 req.file.path,
@@ -64,26 +78,28 @@ const recipeController = {
               const recipeData = await req.body;
 
               // returns a list of nested objects with data grouped by the property. e.g for ingredient, returns [ {name, quantity, optional, notes} ]
-              const ingredients = groupByProperty(recipeData, 'ingredient')
-              const instructions = groupByProperty(recipeData, 'instruction')
-              
-              console.log('BODY: ', req.body)
+              const ingredients = parseIngredients(recipeData.ingredients.split(/\r\n|\n\r|\n|\r/))
+              const instructions = recipeData.instructions
+              await ingredients
+            
+              console.log('ingredients: ', ingredients)
+            
               
               const recipePath = recipeData.recipeName.toLowerCase().trim().split(' ').join('-')
 
-              const recipe = await Recipe.create({
-                recipeName: recipeData.recipeName,
-                path: recipePath,
-                author: recipeData.author,
-                image: image.secure_url,
-                cloudinaryId: image.public_id,
-                cuisine: recipeData.cuisine,
-                recipeType: recipeData.recipeType,
-                specialDiet: recipeData.specialDiet,
-                allergens: recipeData.allergens,
-                ingredients: ingredients,
-                instructions: instructions,
-            })
+            //   const recipe = await Recipe.create({
+            //     recipeName: recipeData.recipeName,
+            //     path: recipePath,
+            //     author: recipeData.author,
+            //     image: image.secure_url,
+            //     cloudinaryId: image.public_id,
+            //     cuisine: recipeData.cuisine,
+            //     recipeType: recipeData.recipeType,
+            //     specialDiet: recipeData.specialDiet,
+            //     allergens: recipeData.allergens,
+            //     ingredients: ingredients,
+            //     instructions: instructions,
+            // })
             res.render('recipes/add-recipe.ejs', { msg: `Success! Your recipe has been uploaded!`})           
         } catch (err) {
             console.error(err)

@@ -7,11 +7,16 @@ module.exports = {
                 throw 'Invalid data type passed to parseIngredients. Please pass an array.';
             }
             const url = 'https://sandbox.zestfuldata.com/parseIngredients'
-            const {results} = await axios.post(url, {
-                "ingredients": [...ingredients]
+            const {data} = await axios.post(url, {
+                "ingredients": ingredients
+            },{
+              Headers: "Content-Type: application/json"
             });
-            // expecting an results
-            return results;            
+            if(data.error){
+              throw `Zestful error: ${data.error}`;
+            } else {
+              return data.results;
+            }          
         } catch (error) {
             console.error(error);
         }

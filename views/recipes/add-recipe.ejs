@@ -84,82 +84,19 @@
                     <!-- <div class="row mb-2"> -->
                         <!-- Ingredient one -->
                         <fieldset class="row mb-2 justify-content-center">
-                            <h5 class='h4'>Ingredient 1</h5>
+                            <!-- <h5 class='h4'>Ingredient</h5> -->
                             <div class="col-sm-4 p-3">
-                                <label class="form-label" for="ingredient-1-quantity">Quantity</label>
-                                <input class="form-control" type="text" name="ingredient-1-quantity" id="ingredient-1-quantity" placeholder="1/2 small">
-                            </div>
-                            <div class="col-sm-4 p-3">
-                                <label class="form-label" for="ingredient-1-name">Name</label>
-                                <input class="form-control" type="text" name="ingredient-1-name" id="ingredient-1-name" placeholder="onion">
-                            </div>                            
-                            <div class="col-sm-4 p-3">
-                                <label class="form-label" for="ingredient-1-optional">Optional?</label>
-                                <select class="form-control" name="ingredient-1-optional" id="ingredient-1-optional">
-                                    <option value="yes">Yes</option>
-                                    <option value="no" selected>No</option>
-                                </select>
-                            </div>
-                            <div class="col-sm-8 p-3">
-                                <label class="form-label" for="ingredient-1-notes">Notes</label>
-                                <textarea class="form-control" name="ingredient-1-notes" id="ingredient-1-notes" cols="30" rows="2" placeholder="Toss in oil until it slightly browns"></textarea>
+                                <label class="form-label" for="ingredients">Type each ingredient on its' own line</label>
+                                <textarea class="form-control" name="ingredients" id="ingredients" cols="30" rows="2" placeholder="1 bunch of cilantro &#10;4 cloves of garlic &#10;1 red pepper"></textarea>
                             </div>
                         </fieldset>
-                        <!-- Ingredient one end -->
-                        <!-- Ingredient TWO START -->
-                        <fieldset class="row mb-2 justify-content-center">
-                            <h5 class='h4'>Ingredient 2</h5>
-                            <div class="col-sm-4 p-3">
-                                <label class="form-label" for="ingredient-2-quantity">Quantity</label>
-                                <input class="form-control" type="text" name="ingredient-2-quantity" id="ingredient-2-quantity" placeholder="1/2 small">
-                            </div>
-                            <div class="col-sm-4 p-3">
-                                <label class="form-label" for="ingredient-2-name">Name</label>
-                                <input class="form-control" type="text" name="ingredient-2-name" id="ingredient-2-name" placeholder="onion">
-                            </div>                            
-                            <div class="col-sm-4 p-3">
-                                <label class="form-label" for="ingredient-2-optional">Optional?</label>
-                                <select class="form-control" name="ingredient-2-optional" id="ingredient-2-optional">
-                                    <option value="yes">Yes</option>
-                                    <option value="no" selected>No</option>
-                                </select>
-                            </div>
-                            <div class="col-sm-8 p-3">
-                                <label class="form-label" for="ingredient-2-notes">Notes</label>
-                                <textarea class="form-control" name="ingredient-2-notes" id="ingredient-2-notes" cols="30" rows="2" placeholder="Toss in oil until it slightly browns"></textarea>
-                            </div>
-                        </fieldset>
-                        <!-- Ingredient TWO end -->
-                        <!-- Ingredient THREE START -->
-                        <fieldset  class="row mb-2 justify-content-center">
-                            <h5 class='h4'>Ingredient 3</h5>
-                            <div class="col-sm-4 p-3">
-                                <label class="form-label" for="ingredient-3-quantity">Quantity</label>
-                                <input class="form-control" type="text" name="ingredient-3-quantity" id="ingredient-3-quantity" placeholder="1/2 small">
-                            </div>
-                            <div class="col-sm-4 p-3">
-                                <label class="form-label" for="ingredient-3-name">Name</label>
-                                <input class="form-control" type="text" name="ingredient-3-name" id="ingredient-3-name" placeholder="onion">
-                            </div>                            
-                            <div class="col-sm-4 p-3">
-                                <label class="form-label" for="ingredient-3-optional">Optional?</label>
-                                <select class="form-control" name="ingredient-3-optional" id="ingredient-3-optional">
-                                    <option value="yes">Yes</option>
-                                    <option value="no" selected>No</option>
-                                </select>
-                            </div>
-                            <div class="col-sm-8 p-3">
-                                <label class="form-label" for="ingredient-3-notes">Notes</label>
-                                <textarea class="form-control" name="ingredient-3-notes" id="ingredient-3-notes" cols="30" rows="2" placeholder="Toss in oil until it slightly browns"></textarea>
-                            </div>
-                        </fieldset>
-                        <!-- Ingredient THREE end -->
-                        <div id="addIngredientRow" class="row" >
+                        <!-- Ingredient one end -->                        
+                        <!-- <div id="addIngredientRow" class="row" >
                             <div class="col-6">
                                 <button type='button' id='addIngredientBtn' class='btn btn-primary'><i class="fa fa-plus-circle" aria-hidden="true"></i>
                                 </button>
                             </div>
-                        </div>
+                        </div> -->
                     <!-- </div> -->
                 </section>
                 <!-- INSTRUCTIONS SECTION -->
@@ -167,16 +104,16 @@
                     <h2 class='display-2'>Instructions</h2>
                     <!-- iNSTRUCTION ONE START -->
                     <div class="col-10 p-3">
-                        <label class="form-label" for="instruction-1-text">1.</label>
-                        <textarea class="form-control" name="instruction-1-text" id="instruction-1-text" cols="30" rows="2" placeholder="Chop mushrooms, peppers, and onions. Then toss into the pan over medium heat"></textarea>
+                        <label class="form-label" for="instructions">Type each step on its' own line</label>
+                        <textarea class="form-control" name="instructions" id="instructions" cols="30" rows="2" placeholder="Chop mushrooms, peppers, and onions. &#10;Then toss into the pan over medium heat"></textarea>
                     </div>
                     <!-- iNSTRUCTION TWO START -->
-                    <div class="col-10 p-3">
+                    <!-- <div class="col-10 p-3">
                         <label class="form-label" for="instruction-2-text">2.</label>
                         <textarea class="form-control" name="instruction-2-text" id="instruction-2-text" cols="30" rows="2" placeholder="Chop mushrooms, peppers, and onions."></textarea>
-                    </div>
+                    </div> -->
                     <!-- iNSTRUCTION THREE START -->
-                    <div class="col-10 p-3">
+                    <!-- <div class="col-10 p-3">
                         <label class="form-label" for="instruction-3-text">3.</label>
                         <textarea class="form-control" name="instruction-3-text" id="instruction-3-text" cols="30" rows="2" placeholder="Chop mushrooms, peppers, and onions. Toss over medium heat..."></textarea>
                     </div>
@@ -185,7 +122,7 @@
                             <button type='button' id='addInstructionBtn' class='btn btn-primary'><i class="fa fa-plus-circle" aria-hidden="true"></i>
                             </button>
                         </div>
-                    </div>
+                    </div> -->
                 </section>
                 <button type="submit">Submit a recipe</button>
             </form>
