@@ -8,7 +8,6 @@ const RecipeSchema = new mongoose.Schema({
     },
     recipeNameSpanish: {
         type: String,
-        default: null
     },
     path: String,
     author: {
@@ -21,7 +20,7 @@ const RecipeSchema = new mongoose.Schema({
     } ,
     image: String,
     cloudinaryId: String,
-    ingredients: [{any: mongoose.Schema.Types.Mixed}],
+    ingredients: [mongoose.Schema.Types.Mixed],
     instructions: [{
         type: String,
     }],
