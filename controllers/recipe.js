@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const Recipe = require('../models/Recipe')
 const cloudinary = require('../middleware/cloudinary')
-const { groupByProperty } = require('../middleware/customFunctions')
+const { fixedEncodeURIComponent } = require('../middleware/customFunctions')
 const {parseIngredients} = require('../middleware/zestful')
 
 
@@ -75,32 +75,55 @@ const recipeController = {
                 (err, data) => console.log(data, err)
               );
 
-              const recipeData = await req.body;
+              const recipeData = req.body;
 
-              // returns a list of nested objects with data grouped by the property. e.g for ingredient, returns [ {name, quantity, optional, notes} ]
-              const ingredients = parseIngredients(recipeData.ingredients.split(/\r\n|\n\r|\n|\r/))
-              const instructions = recipeData.instructions
-              await ingredients
-            
-              console.log('ingredients: ', ingredients)
-            
+              let recipePath = recipeData.recipeName.toLowerCase().trim().split(' ').join('-')
+              recipePath = fixedEncodeURIComponent(recipePath)
+
+              // splits strings by new lines and returns an array of strings
+              const ingredients = recipeData.ingredients.split(/\r\n|\n\r|\n|\r/)
+              const instructions = recipeData.instructions.split(/\r\n|\n\r|\n|\r/)
               
-              const recipePath = recipeData.recipeName.toLowerCase().trim().split(' ').join('-')
+             
 
-            //   const recipe = await Recipe.create({
-            //     recipeName: recipeData.recipeName,
-            //     path: recipePath,
-            //     author: recipeData.author,
-            //     image: image.secure_url,
-            //     cloudinaryId: image.public_id,
-            //     cuisine: recipeData.cuisine,
-            //     recipeType: recipeData.recipeType,
-            //     specialDiet: recipeData.specialDiet,
-            //     allergens: recipeData.allergens,
-            //     ingredients: ingredients,
-            //     instructions: instructions,
-            // })
-            res.render('recipes/add-recipe.ejs', { msg: `Success! Your recipe has been uploaded!`})           
+                // api call to zestful & some error checking. Consider storing this is another function. 
+                const result = await parseIngredients(ingredients)                  
+                console.log(result);
+                if(!result){
+                    req.flash('errors', "Something went wrong. Please try again later.")
+                    res.redirect('/recipes/custom-recipes')
+
+                } else if (result.error && result.error.includes('insufficient quota')){    
+                    console.log('Zestful error: ',result.error);                
+                    req.flash('errors', "Recipe Quota reached for today. Please try again in 24 hours or upgrade to a paid membership")
+                    
+                } else if (Array.isArray(result.results)){
+                    // if the result is what we expect it to be, create the recipe document with this data
+                    let parsedIngredients = result.results
+                    console.log(parsedIngredients);
+
+                      const recipe = await Recipe.create({
+                        recipeName: recipeData.recipeName,
+                        path: recipePath,
+                        author: recipeData.author,
+                        image: image.secure_url,
+                        cloudinaryId: image.public_id,
+                        cuisine: recipeData.cuisine,
+                        recipeType: recipeData.recipeType,
+                        specialDiet: recipeData.specialDiet,
+                        allergens: recipeData.allergens,
+                        ingredients: parsedIngredients,
+                        instructions: instructions,
+                        linkToSource: recipeData.linkToSource,
+                        nameInSpanish: recipeData.recipeNameSpanish
+                      })
+
+                    req.flash('success', `Success! Your recipe has been uploaded!`)
+                } else {
+                    req.flash('errors', "Recipe Quota reached for today. Please try again in 24 hours or upgrade to a paid membership")
+                }
+                res.redirect('/recipes/custom-recipes')           
+              
         } catch (err) {
             console.error(err)
         }
