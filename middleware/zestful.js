@@ -6,12 +6,17 @@ module.exports = {
             if (!Array.isArray(ingredients)){
                 return 'Invalid data type passed to parseIngredients. Please pass an array.';
             }
-            const url = 'https://sandbox.zestfuldata.com/parseIngredients'
+            const url = 'https://zestful.p.rapidapi.com/parseIngredients'
+            const config = { 
+              headers: {
+                "content-type": "application/json",
+                "x-rapidapi-key": process.env.ZESTFUL_API_KEY,
+                "x-rapidapi-host": "zestful.p.rapidapi.com",
+            }}
+            
             const {data} = await axios.post(url, {
                 "ingredients": ingredients
-            },{
-              Headers: "Content-Type: application/json"
-            });
+            }, config);
 
             return data;   
 
