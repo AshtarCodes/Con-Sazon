@@ -16,15 +16,19 @@
     <!-- Form to add custom recipes -->
     <div class="container">
         <section class="row my-5 add-recipe-form">
-            <p class="h1"><%= msg !== 'undefined' ? msg : '' %></p>
+            <%- include("../partials/flash.ejs") %>
             <form action="/recipes/custom-recipes" method="POST" enctype="multipart/form-data">
                 <!-- top-level recipe info -->
                 <section class="row mb-5">
                     <h2 class='display-2'>Recipe Essentials</h2>
                     <div class="row mb-3 justify-content-center">
                         <div class="col-sm-3 m-3">
-                            <label class="form-label" for="recipeName">Recipe name</label>
+                            <label class="form-label" for="recipeName">Recipe Title</label>
                             <input class="form-control" type="text" id="recipeName" name="recipeName" placeholder="" required>
+                        </div>
+                        <div class="col-sm-3 m-3">
+                            <label class="form-label" for="recipeName">Recipe Title (Spanish)</label>
+                            <input class="form-control" type="text" id="recipeName" name="recipeNameSpanish" placeholder="" required>
                         </div>
                         <div class="col-sm-3 m-3">
                             <label class="form-label" for="author">Author</label>
@@ -33,6 +37,10 @@
                         <div class="col-sm-3 m-3">
                             <label class="form-label" for="image">Image</label>
                             <input class="form-control" type="file" id="image" name="image" placeholder="" required>
+                        </div>
+                        <div class="col-sm-3 m-3">
+                            <label class="form-label" for="linkToSource">Link to credit</label>
+                            <input class="form-control" type="url" id="linkToSource" name="linkToSource" placeholder="https://www.foodheavenmadeeasy.com">
                         </div>
                     </div>
                     <!-- prep cook total desc, servings -->
@@ -66,15 +74,15 @@
                         </div>
                         <div class="m-3 col-sm-5">
                             <label class="form-label" for="recipeType">Recipe Type</label>
-                            <input class="form-control" type="text" id="recipeType" name="recipeType" placeholder="" >
+                            <input class="form-control" type="text" id="recipeType" name="recipeType" placeholder="lunch, dinner, seasonings" >
                         </div>
                         <div class="m-3 col-sm-5">
-                            <label class="form-label" for="specialDiet">Special Diet</label>
-                            <input class="form-control" type="text" id="specialDiet" name="specialDiet" placeholder="" >
+                            <label class="form-label" for="specialDiet">Compatible with Special Diet</label>
+                            <input class="form-control" type="text" id="specialDiet" name="specialDiet" placeholder="vegan, gluten-free" >
                         </div>
                         <div class="m-3 col-sm-5">
                             <label class="form-label" for="allergens">Allergens</label>
-                            <input class="form-control" type="text" id="allergens" name="allergens" placeholder="" required>
+                            <input class="form-control" type="text" id="allergens" name="allergens" placeholder="peanuts, shellfish, eggs" required>
                         </div>
                     </div>
                 </section>
