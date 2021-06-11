@@ -80,50 +80,57 @@ const recipeController = {
               let recipePath = recipeData.recipeName.toLowerCase().trim().split(' ').join('-')
               recipePath = fixedEncodeURIComponent(recipePath)
 
-              // splits strings by new lines and returns an array of strings
-              const ingredients = recipeData.ingredients.split(/\r\n|\n\r|\n|\r/)
-              const instructions = recipeData.instructions.split(/\r\n|\n\r|\n|\r/)
+              // trims whitespace and splits strings by new lines and returns an array of strings
+              const ingredients = recipeData.ingredients.trim().toLowerCase().split(/\r\n|\n\r|\n|\r/)
+              const instructions = recipeData.instructions.trim().toLowerCase().split(/\r\n|\n\r|\n|\r/)
               
              
 
                 // api call to zestful & some error checking. Consider storing this is another function. 
                 const result = await parseIngredients(ingredients)                  
-                console.log(result);
+                
                 if(!result){
                     req.flash('errors', "Something went wrong. Please try again later.")
                     res.redirect('/recipes/custom-recipes')
-
+                    
                 } else if (result.error && result.error.includes('insufficient quota')){    
+                    // Freemium API 30 ing quota finished, resets in 24 hours
                     console.log('Zestful error: ',result.error);                
                     req.flash('errors', "Recipe Quota reached for today. Please try again in 24 hours or upgrade to a paid membership")
+                    
+                } else if (result.error){
+                    // Other zestful errors
+                    req.flash('errors', "Something went wrong. Please try again later.")                  
+                    console.log('Zestful error: ', result.error)
+                    res.redirect('/dashboard')
                     
                 } else if (Array.isArray(result.results)){
                     // if the result is what we expect it to be, create the recipe document with this data
                     let parsedIngredients = result.results
-                    console.log(parsedIngredients);
-
-                      const recipe = await Recipe.create({
+                    console.log('PARSED ING VAR: ', parsedIngredients);
+                    
+                    const recipe = await Recipe.create({
                         recipeName: recipeData.recipeName,
                         path: recipePath,
-                        author: recipeData.author,
+                        author: recipeData.author.toLowerCase(),
                         image: image.secure_url,
                         cloudinaryId: image.public_id,
-                        cuisine: recipeData.cuisine,
-                        recipeType: recipeData.recipeType,
-                        specialDiet: recipeData.specialDiet,
-                        allergens: recipeData.allergens,
+                        cuisine: recipeData.cuisine.toLowerCase(),
+                        recipeType: recipeData.recipeType.toLowerCase(),
+                        specialDiet: recipeData.specialDiet.toLowerCase(),
+                        allergens: recipeData.allergens.toLowerCase(),
                         ingredients: parsedIngredients,
                         instructions: instructions,
                         linkToSource: recipeData.linkToSource,
                         nameInSpanish: recipeData.recipeNameSpanish
-                      })
-
+                    })
+                    
                     req.flash('success', `Success! Your recipe has been uploaded!`)
                 } else {
-                    req.flash('errors', "Recipe Quota reached for today. Please try again in 24 hours or upgrade to a paid membership")
+                    req.flash('errors', "Something went wrong. Please try again later.") 
                 }
                 res.redirect('/recipes/custom-recipes')           
-              
+                
         } catch (err) {
             console.error(err)
         }

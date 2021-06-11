@@ -4,6 +4,7 @@ const MealPlan = require('../models/MealPlan')
 const Recipe = require('../models/Recipe')
 const moment = require('moment')
 const { ObjectId } = require('bson')
+const math = require('../middleware/math')
 
 
 /* User flow from Dashboard: 
@@ -67,10 +68,13 @@ const homeController = {
            let mealPlan = hasMealPlan
            console.log(`no ARRAY?: `,mealPlan); 
            if (hasMealPlan[0]){
+
                 mealPlan = hasMealPlan[0];
+                
                 await mealPlan.populate('week').execPopulate();
-                console.log(`POPULATED: `, mealPlan);
-                console.log(mealPlan.populated('week'));
+
+                console.log(`POPULATED: `, mealPlan);                
+
            } else {
                 // mealPlan = await MealPlan.create({
                 //     userId: req.user._id,
@@ -230,20 +234,60 @@ const homeController = {
              [plantain, 5 items] (can concat and parse quantities with Math.js)
             */
             console.log(`viewConfirm: `, confirmedMealPlan);
+            
             let ingredientNames = confirmedMealPlan.week
             .map(meal => meal.ingredients)
             .flat()
             .map(item => item.ingredientParsed)
             .reduce((acc, current, i) => {
                 let {quantity, unit, product} = current;
-                acc[i] = {
-                    quantity: quantity,
-                    unit: unit,
-                    product: product
-                };
+                unit = unit !== null ? unit.toLowerCase() : unit;
+                product = product !== null ? product.toLowerCase() : product;
+
+                if(!acc[product] && product !== null){
+                    acc[product] = []
+                } 
+                if(unit !== null && product !== null){
+                    acc[product].push((quantity + ' ' + unit)) 
+                } else if (unit === null && quantity !== null) {
+                    acc[product].push((quantity))
+                }
                 return acc;
-            }, [])
+            }, {})
             
+            // P: obj of arrays; R: Obj of string; E: {product: '5 items'}; 
+            // Ps: convert to object.entries, loop through sub arrays and 
+            function sumIngredientQuantities (obj){
+                let itemEntries = Object.entries(obj)
+                console.log(itemEntries);
+                let finalQuantity = ''
+                for (let item of itemEntries){ // loop through sub arrays
+                    let [product, quantities] = item;
+                    for (let quantity of quantities){
+                        if (typeof quantity != 'number' ){
+                            let [num, unit] = quantity.split(' ')
+                        } else if (typeof quantity == 'number'){
+                            return quantity;
+                        }
+                        let commonUnit = 'some common unit'
+                        if(unit == 'list of non-standard units'){
+
+                            commonUnit = 'something'
+                            quantity =  math.unit(num).to(`${unit}`).toString()
+
+                        } else if(unit == 'standard units'){
+
+                            commonUnit = 'something'
+                            quantity =  math.unit(num).to(`${unit}`).toString()
+
+                        }
+                    }
+                    quantities.reduce('standardized units into one unit')
+                }
+            }
+
+            sumIngredientQuantities(ingredientNames)
+
             console.log(`ingredientsNames: `, ingredientNames );
             
             // If confirmed, continue. else, redirect 
