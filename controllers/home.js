@@ -257,6 +257,8 @@ const homeController = {
             
             // P: obj of arrays; R: Obj of string; E: {product: '5 items'}; 
             // Ps: convert to object.entries, loop through sub arrays and 
+            // 1. assume same units, check each unit error, 
+            // get a count of how many ingredients have diff units, then how many units in each one
             function sumIngredientQuantities (obj){
                 let itemEntries = Object.entries(obj)
                 console.log(itemEntries);

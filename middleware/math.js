@@ -55,14 +55,14 @@ pound
 *
 *
 */
-
+//build class to get count of all units
 
 
 let x = math.unit('1 tablespoon')
 
 let a = '1 cup'
-let z = math.evaluate(`number(${a}, floz)`)
-console.log(math.round(z)) // prints 8
+// let z = math.evaluate(`number(${a}, grams)`)
+// console.log(math.round(z)) // prints 8
 
 let y = math.unit('1 cup')
 console.log(y.to('floz').toString()); // prints '7.9999 floz'
