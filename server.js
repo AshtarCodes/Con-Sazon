@@ -30,9 +30,9 @@ app.use(express.urlencoded({extended: true}))
 app.use(express.json())
 
 // Logging
-if(process.env.NODE_ENV = 'development'){
+// if(process.env.NODE_ENV = 'development'){
     app.use(morgan('dev'))
-}
+// }
 
 // use forms for put & delete
 app.use(methodOverride("_method"))
@@ -51,8 +51,13 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-// use express-flash to display errors and information
+// use express-flash to display errors and success messages
 app.use(flash())
+app.use((req, res, next) => {
+  res.locals.success = req.flash('success');
+  res.locals.errors = req.flash('errors');
+  next();
+})
 
 // routes
 app.use('/', authRoutes)

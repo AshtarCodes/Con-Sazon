@@ -20,7 +20,7 @@
             <section class="col-10 border rounded d-flex flex-column flex-sm-row">
                 <section class="col-6">
                     <div class="row justify-content-center">
-                        <p><%= msg %></p>
+                        <%- include("../partials/flash.ejs") %>
                     </div>
                     <div class="row justify-content-center">
                         <!-- How to handle a confirmed meal plan? -->
@@ -43,9 +43,18 @@
                             <% } %>
                     </div>
                 </section>
-                <!-- <section class="col-6">
-                    <h2>Ingredients</h2>
-                </section> -->
+                <% if(mealPlan.week.length > 0){ %>
+                    <section class="col-6">
+                        <h2>Ingredients</h2>
+                        <!-- REFACTOR to only return what's needed from the database, instead of this slow nested loop -->
+                    <% for (meal of mealPlan.week){ %>
+                        <% for (item of meal.ingredients){ %>
+                            <p><span><%= item.ingredientParsed.quantity %></span><span class="ml-2"><%= item.ingredientParsed.product %></span></p>
+                        <% } %>
+                    <% } %>
+                        <!-- <p><span><%= %></span></p> -->
+                    </section>
+                <% } %>
             </section>
         </main>      
     </div>
