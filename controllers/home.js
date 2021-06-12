@@ -4,6 +4,7 @@ const MealPlan = require('../models/MealPlan')
 const Recipe = require('../models/Recipe')
 const moment = require('moment')
 const { ObjectId } = require('bson')
+const math = require('../middleware/math')
 
 
 /* User flow from Dashboard: 
@@ -67,10 +68,13 @@ const homeController = {
            let mealPlan = hasMealPlan
            console.log(`no ARRAY?: `,mealPlan); 
            if (hasMealPlan[0]){
+
                 mealPlan = hasMealPlan[0];
+                
                 await mealPlan.populate('week').execPopulate();
-                console.log(`POPULATED: `, mealPlan);
-                console.log(mealPlan.populated('week'));
+
+                console.log(`POPULATED: `, mealPlan);                
+
            } else {
                 // mealPlan = await MealPlan.create({
                 //     userId: req.user._id,
@@ -221,35 +225,79 @@ const homeController = {
             .populate('week')
             .lean();
             
+            /* How to get a sum of all ingredient quantities
+             1. map until ingredientParsed array
+             2. get product, quantity, and unit as key-value pairs in a list of objects
+             the goal is to only have unique products, and to merge all quantities of like products together.
+             so add quantities for all instances of plantain and display both side to side
+             {product: plaintain, quantity: 5, unit: items}
+             [plantain, 5 items] (can concat and parse quantities with Math.js)
+            */
             console.log(`viewConfirm: `, confirmedMealPlan);
-            let allIngredients = confirmedMealPlan.week
-            .map(o => o.ingredients)
+            
+            let ingredientNames = confirmedMealPlan.week
+            .map(meal => meal.ingredients)
             .flat()
-            .reduce((acc, {name, quantity}) => {
-              if(!acc[name]){
-                acc[name] = []
-              }
-              acc[name].push(quantity)
-              return acc;
-            }, {});
-            console.log(`ingredients: `, allIngredients );
+            .map(item => item.ingredientParsed)
+            .reduce((acc, current, i) => {
+                let {quantity, unit, product} = current;
+                unit = unit !== null ? unit.toLowerCase() : unit;
+                product = product !== null ? product.toLowerCase() : product;
+
+                if(!acc[product] && product !== null){
+                    acc[product] = []
+                } 
+                if(unit !== null && product !== null){
+                    acc[product].push((quantity + ' ' + unit)) 
+                } else if (unit === null && quantity !== null) {
+                    acc[product].push((quantity))
+                }
+                return acc;
+            }, {})
+            
+            // P: obj of arrays; R: Obj of string; E: {product: '5 items'}; 
+            // Ps: convert to object.entries, loop through sub arrays and 
+            function sumIngredientQuantities (obj){
+                let itemEntries = Object.entries(obj)
+                console.log(itemEntries);
+                let finalQuantity = ''
+                for (let item of itemEntries){ // loop through sub arrays
+                    let [product, quantities] = item;
+                    for (let quantity of quantities){
+                        if (typeof quantity != 'number' ){
+                            let [num, unit] = quantity.split(' ')
+                        } else if (typeof quantity == 'number'){
+                            return quantity;
+                        }
+                        let commonUnit = 'some common unit'
+                        if(unit == 'list of non-standard units'){
+
+                            commonUnit = 'something'
+                            quantity =  math.unit(num).to(`${unit}`).toString()
+
+                        } else if(unit == 'standard units'){
+
+                            commonUnit = 'something'
+                            quantity =  math.unit(num).to(`${unit}`).toString()
+
+                        }
+                    }
+                    quantities.reduce('standardized units into one unit')
+                }
+            }
+
+            sumIngredientQuantities(ingredientNames)
+
+            console.log(`ingredientsNames: `, ingredientNames );
             
             // If confirmed, continue. else, redirect 
             if (confirmedMealPlan.confirmDate){
                 res.render('mealPlanActive/meal-plan', {mealPlan: confirmedMealPlan, user: req.user, msg: null})
             } else {
-                //REQ.FLASH ERROR?
+                req.flash("errors", "You don't have any confirmed meal plans! Please confirm selections on an existing plan, or create a new one.")
                 res.redirect('/dashboard/meal-plan')
             }     
             
-            /* How to get a sum of all ingredient quantities
-            Possible approaches:
-            1. populate recipe docs from mealPlan.week. Then use aggregate pipeline to add all quantities of each ingredient, without duplicates. 
-            2. populate, then use .lean(), then manipulate in JS.             
-            Steps
-            1. push all recipe.ingredients arrays to a new array and flatten
-            2. group ingredient objects by name and sum their quantities 
-            */
         } catch (error) {
             console.error(error);
         }

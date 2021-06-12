@@ -55,19 +55,19 @@
                     <div class="col-12 col-sm-6">
                         <h2>Ingredients</h2>
                         <% for (item of singleRecipe.ingredients) { %>
-                            <p><span><%= item.quantity %></span> <%= item.name %> <span><% if (item.optional == 'yes') { %> (optional) <% } %></span><span><% item.notes %></span></p>
+                            <p><%= item.ingredientRaw %></p>
                         <% } %>
                     </div>
                     <div class="col-12 col-sm-6">
                         <h2>Instructions</h2>
-                        <% for (item of singleRecipe.instructions) { %>
-                            <p><%= item.text %></p>
+                        <% for (text of singleRecipe.instructions) { %>
+                            <p><%= text %></p>
                         <% } %>
                     </div>
                 </div>
             </div>
         </main>
     </div>
-    <%- include('../partials/mealplan-footer') -%>
+    <%- include('partials/mealplan-footer') %>
 </body>
 </html>

@@ -11,7 +11,7 @@ const MealPlanSchema = new mongoose.Schema({
     createdAt: {type: Date, default: new Date()},
     updatedAt: {type: Date, default: new Date()},
     confirmDate: {type: Date, default: null},
-})
+},{ timestamps: true})
 
 // create index to expire unconfirmed documents after 72 hours
 

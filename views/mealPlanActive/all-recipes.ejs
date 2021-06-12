@@ -35,7 +35,7 @@
             <!-- sidebar -->
             <section class="col-4 border rounded ">
                 <div class="row justify-content-center">
-                    <p><%= msg %></p>
+                    <%- include("../partials/flash.ejs") %>
                 </div>
                 <div class="row justify-content-center">
                         <% if(mealPlan.week.length === 0) { %>

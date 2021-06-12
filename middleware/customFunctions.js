@@ -14,6 +14,14 @@ function groupByProperty(body, substr) {
     return arr;
 };
 
+// Per MDN, this replaces most if not all URL delimiters including [ !, ', (, ), *]
+function fixedEncodeURIComponent(str) {
+  return encodeURIComponent(str).replace(/[!'()*]/g, function(c) {
+    return '%' + c.charCodeAt(0).toString(16);
+  });
+}
+
+
 module.exports = {
-    groupByProperty
+    groupByProperty, fixedEncodeURIComponent
 };
