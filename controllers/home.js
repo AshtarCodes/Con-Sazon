@@ -4,7 +4,7 @@ const MealPlan = require('../models/MealPlan')
 const Recipe = require('../models/Recipe')
 const moment = require('moment')
 const { ObjectId } = require('bson')
-const {math, definedUnits} = require('../middleware/math')
+const {math, definedUnits, ignoreProductUnits} = require('../middleware/math')
 
 
 /* User flow from Dashboard: 
@@ -235,7 +235,7 @@ const homeController = {
             */
                        
           
-            let ingredientNames = confirmedMealPlan.week
+            let groupByIngredientName = confirmedMealPlan.week
             .map(meal => meal.ingredients)
             .flat()
             .map(item => item.ingredientParsed)
@@ -260,7 +260,7 @@ const homeController = {
                 return acc;
             }, {})
             
-            // console.log(`ingredientsNames: `, ingredientNames );
+            console.log(`ingredientsNames: `, groupByIngredientName );
             
             // P: obj of arrays; R: Obj of string; E: {product: '5 items'}; 
             // Ps: convert to object.entries, loop through sub arrays and 
@@ -271,8 +271,9 @@ const homeController = {
                 let finalQuantity = [];
                 try {
                 for (let item in itemQuantities){ // loop through sub arrays
-                    let quantities = itemQuantities[item];
+                    if(!ignoreProductUnits.some(el => item.includes(el))){
                     
+                    let quantities = itemQuantities[item];
                     // console.log(`QUANTITIES: `, quantities);
 
                     // parse array of quantity arrays
@@ -281,26 +282,34 @@ const homeController = {
                         let unit = quantity[1] ? quantity[1] : null
                         // console.log(`NUM AND UNIT: `, num, unit);
 
+                        // if it's a whole item, unit is null.
                         if(unit == null){
-                            // just display num
+                            
                             finalQuantity.push(num)
 
-                        } else if (!definedUnits[unit]){
-                            // for now, ignore it. eventually define it and convert.
-                            // finalQuantity = `${num.toString()} ${unit}`
+                        } else if (!definedUnits[unit]) {
+                            // for now, ignore it. eventually define it and convert.                            
 
                         } else if(definedUnits[unit]){
                             // if it's a nice unit, do some conversion and add things
-                            // quantity =  math.unit(num).to(`${unit}`).toString()
-                            unit = math.unit(num, unit).to(definedUnits[unit])
+                            //~!!~ TODO: implement ignore list, and handle small item quantities ~~!!~~***
+
+                            let unitToConvertTo = definedUnits[unit];
+                            unit = math.unit(num, unit).to(unitToConvertTo) 
+
+                            if(unit.toNumber() < 1){
+
+                            }
+
                             finalQuantity.push(unit)
                         }
                     }
-                    // if product quantities are all whole items (e.g 1 red pepper)
+                 
+                    // if product quantities are all whole items (e.g 1 red pepper), add them up
                     if (finalQuantity.every(el => typeof el == 'number')){
-                        finalQuantity = finalQuantity.reduce((acc, c) => acc + c, 0)
+                        finalQuantity = finalQuantity.reduce((acc, c) => acc + c, 0) + ' item'
 
-                    // if product quantities are defined units in our system   
+                    // if product quantities are defined units in our system, add them up   
                     } else if(finalQuantity.every(el => math.typeOf(el) == 'Unit')) {
                         // if all elements are mathjs units, add them up
                         finalQuantity = finalQuantity.reduce((acc, unit, i) => {
@@ -312,19 +321,27 @@ const homeController = {
 
                             }
                             return acc;
-                        },0);   
+                        },0);  
+                        // display with 1 decimal place and unit: 1.1 cup 
                         finalQuantity = finalQuantity.toNumber().toFixed(1) + ` ${finalQuantity.formatUnits()}`           
-                              
+                    
+                    // if not a whole item or a defined unit, then leave it blank    
                     } else {
                         finalQuantity = null;
                     }
-
+                } else {
+                    // if in the ignored product units list, provide no quantity
+                    finalQuantity = null;
+                }
                     //set the current product to this single quantity
-                    itemQuantities[item] = finalQuantity;
+                    itemQuantities[item] = finalQuantity ? finalQuantity : null;
 
                     //reset the quantity
                     finalQuantity = [];
-                }
+                
+
+                
+              }
                 return itemQuantities;
                     
                 } catch (error) {
@@ -332,14 +349,14 @@ const homeController = {
                 }
             }
 
-            let shoppingList = sumIngredientQuantities(ingredientNames)
-           console.log(shoppingList);
+            let shoppingList = sumIngredientQuantities(groupByIngredientName)
+           console.log(`SHOPPING LIST: `, shoppingList);
 
             
             
             // If confirmed, continue. else, redirect 
             if (confirmedMealPlan.confirmDate){
-                res.render('mealPlanActive/meal-plan', {mealPlan: confirmedMealPlan, user: req.user, msg: null})
+                res.render('mealPlanActive/meal-plan', {mealPlan: confirmedMealPlan, user: req.user, shoppingList, msg: null})
             } else {
                 req.flash("errors", "You don't have any confirmed meal plans! Please confirm selections on an existing plan, or create a new one.")
                 res.redirect('/dashboard/meal-plan')
