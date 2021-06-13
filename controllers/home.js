@@ -4,7 +4,7 @@ const MealPlan = require('../models/MealPlan')
 const Recipe = require('../models/Recipe')
 const moment = require('moment')
 const { ObjectId } = require('bson')
-const math = require('../middleware/math')
+const {math, definedUnits} = require('../middleware/math')
 
 
 /* User flow from Dashboard: 
@@ -42,8 +42,8 @@ const homeController = {
             res.render('dashboard', { user, mealPlan })
             
         } catch (error) {
-            console.error(error);
         }
+        console.error(error);
     },
     getMealPlan: async (req, res) => {
         try {
@@ -233,64 +233,109 @@ const homeController = {
              {product: plaintain, quantity: 5, unit: items}
              [plantain, 5 items] (can concat and parse quantities with Math.js)
             */
-            console.log(`viewConfirm: `, confirmedMealPlan);
-            
+                       
+          
             let ingredientNames = confirmedMealPlan.week
             .map(meal => meal.ingredients)
             .flat()
             .map(item => item.ingredientParsed)
             .reduce((acc, current, i) => {
                 let {quantity, unit, product} = current;
+
+                // these are lowercase strings or null
                 unit = unit !== null ? unit.toLowerCase() : unit;
                 product = product !== null ? product.toLowerCase() : product;
 
+                // create a key for every defined product
                 if(!acc[product] && product !== null){
                     acc[product] = []
                 } 
+                
+                // if defined unit, then 
                 if(unit !== null && product !== null){
-                    acc[product].push((quantity + ' ' + unit)) 
+                    acc[product].push([quantity, unit])
                 } else if (unit === null && quantity !== null) {
-                    acc[product].push((quantity))
+                    acc[product].push(([quantity]))
                 }
                 return acc;
             }, {})
+            
+            // console.log(`ingredientsNames: `, ingredientNames );
             
             // P: obj of arrays; R: Obj of string; E: {product: '5 items'}; 
             // Ps: convert to object.entries, loop through sub arrays and 
             // 1. assume same units, check each unit error, 
             // get a count of how many ingredients have diff units, then how many units in each one
             function sumIngredientQuantities (obj){
-                let itemEntries = Object.entries(obj)
-                console.log(itemEntries);
-                let finalQuantity = ''
-                for (let item of itemEntries){ // loop through sub arrays
-                    let [product, quantities] = item;
+                let itemQuantities = obj;
+                let finalQuantity = [];
+                try {
+                for (let item in itemQuantities){ // loop through sub arrays
+                    let quantities = itemQuantities[item];
+                    
+                    // console.log(`QUANTITIES: `, quantities);
+
+                    // parse array of quantity arrays
                     for (let quantity of quantities){
-                        if (typeof quantity != 'number' ){
-                            let [num, unit] = quantity.split(' ')
-                        } else if (typeof quantity == 'number'){
-                            return quantity;
-                        }
-                        let commonUnit = 'some common unit'
-                        if(unit == 'list of non-standard units'){
+                        let num = quantity[0]
+                        let unit = quantity[1] ? quantity[1] : null
+                        // console.log(`NUM AND UNIT: `, num, unit);
 
-                            commonUnit = 'something'
-                            quantity =  math.unit(num).to(`${unit}`).toString()
+                        if(unit == null){
+                            // just display num
+                            finalQuantity.push(num)
 
-                        } else if(unit == 'standard units'){
+                        } else if (!definedUnits[unit]){
+                            // for now, ignore it. eventually define it and convert.
+                            // finalQuantity = `${num.toString()} ${unit}`
 
-                            commonUnit = 'something'
-                            quantity =  math.unit(num).to(`${unit}`).toString()
-
+                        } else if(definedUnits[unit]){
+                            // if it's a nice unit, do some conversion and add things
+                            // quantity =  math.unit(num).to(`${unit}`).toString()
+                            unit = math.unit(num, unit).to(definedUnits[unit])
+                            finalQuantity.push(unit)
                         }
                     }
-                    quantities.reduce('standardized units into one unit')
+                    // if product quantities are all whole items (e.g 1 red pepper)
+                    if (finalQuantity.every(el => typeof el == 'number')){
+                        finalQuantity = finalQuantity.reduce((acc, c) => acc + c, 0)
+
+                    // if product quantities are defined units in our system   
+                    } else if(finalQuantity.every(el => math.typeOf(el) == 'Unit')) {
+                        // if all elements are mathjs units, add them up
+                        finalQuantity = finalQuantity.reduce((acc, unit, i) => {
+                            if(i == 0){
+                                let start = math.unit(0, unit.formatUnits())
+                                acc = math.add(start, unit)
+                            } else {
+                                acc = math.add(acc, unit)
+
+                            }
+                            return acc;
+                        },0);   
+                        finalQuantity = finalQuantity.toNumber().toFixed(1) + ` ${finalQuantity.formatUnits()}`           
+                              
+                    } else {
+                        finalQuantity = null;
+                    }
+
+                    //set the current product to this single quantity
+                    itemQuantities[item] = finalQuantity;
+
+                    //reset the quantity
+                    finalQuantity = [];
+                }
+                return itemQuantities;
+                    
+                } catch (error) {
+                    console.error(error);
                 }
             }
 
-            sumIngredientQuantities(ingredientNames)
+            let shoppingList = sumIngredientQuantities(ingredientNames)
+           console.log(shoppingList);
 
-            console.log(`ingredientsNames: `, ingredientNames );
+            
             
             // If confirmed, continue. else, redirect 
             if (confirmedMealPlan.confirmDate){
