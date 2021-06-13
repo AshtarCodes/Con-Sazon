@@ -1,5 +1,5 @@
 
-// Middleware for parsing request body for ingredient and instruction fields 
+// Middleware for parsing request body to group by ingredient and instruction fields - not in use anymore due to updating model
 function groupByProperty(body, substr) {
    const arr = Object.entries(body)
               .filter(([key]) => key.includes(substr))
@@ -21,7 +21,7 @@ function fixedEncodeURIComponent(str) {
   });
 }
 
-
 module.exports = {
     groupByProperty, fixedEncodeURIComponent
 };
+
