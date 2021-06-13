@@ -1,5 +1,7 @@
 # Con Sazon
-An MVP for a meal planning app that aims to share culturally competent & nutritious recipes from Latinx and BIPOC creators. It's your abuela's little black book of recipes.   
+An MVP for a meal planning app that aims to share culturally competent & nutritious recipes from Latinx and BIPOC creators. It's the closest thing to your abuela's little black book of recipes. 
+
+I love to discover new recipes and cook delicious meals for my family. Growing up, my fondest memories were when my abuela cooked up basically anything for me! It was all delicious and "con sazon" (with spices)! Building this app is personal for me, this is my way of sharing and highlighting the flavors &  from the blend of cultures and cuisines I grew up eating. Buen Provecho! (enjoy your meal 😋)    
 
 **Link to hosted webapp:** https://consazon.herokuapp.com
 
@@ -13,9 +15,10 @@ I've focused on functionality over design at this point. I've learned alot about
 
 ## Optimizations (Coming soon)
 
-1. Re-designing the UI to be fully responsive.
+1. Working on the responsiveness and design of the UI.
 2. Implementing a printable shopping list of the ingredients required for a user's meal plan.
-3. Eventually re-designing the UI with React.  
-4. Adding more features! Stay tuned...
+3. Validating the recipe form. 
+4. Eventually re-designing the UI with React.  
+5. Adding more features! Stay tuned...
 
 <h2 align="center">Thank you for reading!</h2>

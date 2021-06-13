@@ -45,12 +45,11 @@
                 </section>
                 <% if(mealPlan.week.length > 0){ %>
                     <section class="col-6">
-                        <h2>Ingredients</h2>
+                        <h2>Shopping List</h2>
                         <!-- REFACTOR to only return what's needed from the database, instead of this slow nested loop -->
-                    <% for (meal of mealPlan.week){ %>
-                        <% for (item of meal.ingredients){ %>
-                            <p><span><%= item.ingredientParsed.quantity %></span><span class="ml-2"><%= item.ingredientParsed.product %></span></p>
-                        <% } %>
+                    <% for (item in shoppingList){ %>
+                        <p class="d-flex flex-row justify-content-between"><span><%= item %></span><span class=""><%= shoppingList[item] %></span></p>
+                        
                     <% } %>
                         <!-- <p><span><%= %></span></p> -->
                     </section>
