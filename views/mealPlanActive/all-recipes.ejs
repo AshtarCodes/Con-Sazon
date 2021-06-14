@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
-    <%- include("../partials/header.ejs") %>
+    <%- include("../partials/header-logout.ejs") %>
     <div class="container m-5">
         <div class="row">
             <div class="col-10">
@@ -24,7 +24,7 @@
             <!-- add If to handle no unconfirmed plan -> create plan button -->
             <% if (Array.isArray(mealPlan)){ %>
                 <div class="col-8">
-                    <p class="h1">You have a confirmed meal plan!</p>
+                    <p class="h1">You don't have a pending meal plan.</p>
                     <p>Either create a new plan or go to the <span><a href="/dashboard">Dashboard</a></span> <wbr>to view your existing plan.</p>
                     <div>
                         <form class='unstyled' action="/dashboard/meal-plan/create" method="POST">

@@ -9,7 +9,11 @@
     <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
-    <%- include("../partials/header.ejs") %>
+    <% if (user) { %>
+        <%- include("../partials/header-logout") %> 
+   <% } else { %>
+        <%-  include("../partials/header") %>
+   <% } %>
     <div class="container m-5">
         <h1>All Recipes</h1>
         <section class="content my-5">
