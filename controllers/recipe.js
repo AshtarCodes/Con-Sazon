@@ -21,15 +21,18 @@ const recipeController = {
         }
     },
     getSingle: async (req, res) => {        
-        
+        // POSSIBLE TODO: validate form to reject recipe names with certain characters like apostrophe's, in recipe names. 
         console.log("RECIPE NAME: ", req.params.recipe_name.toLowerCase())
 
-        let requestedRecipe =  req.params.recipe_name.toLowerCase()
+        let requestedRecipe =  fixedEncodeURIComponent(req.params.recipe_name);        
+        console.log(`REQ RECIPE: `, requestedRecipe);
+        
         try {
             const recipes = await Recipe.find({ path: requestedRecipe });
-            
+            console.log(`RECIPES: `, recipes);
             let [singleRecipe] = recipes 
-
+            console.log(`SINGLE RECIPE: `, singleRecipe);
+            
             res.render('recipes/single-recipe.ejs', { singleRecipe, user: req.user })           
         } catch (err) {
             console.error(err)
