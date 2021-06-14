@@ -12,7 +12,7 @@ const recipeController = {
             console.log(recipes);
             
             if (Array.isArray(recipes)) {
-                res.render('recipes/all-recipes.ejs', { recipes })
+                res.render('recipes/all-recipes.ejs', { recipes, user: req.user })
             } else {
                 res.send('Sorry, no recipes found.')
             }
@@ -30,7 +30,7 @@ const recipeController = {
             
             let [singleRecipe] = recipes 
 
-            res.render('recipes/single-recipe.ejs', { singleRecipe })           
+            res.render('recipes/single-recipe.ejs', { singleRecipe, user: req.user })           
         } catch (err) {
             console.error(err)
         }
@@ -38,7 +38,7 @@ const recipeController = {
     getAddRecipe: async (req, res) => {        
         // let requestedRecipe =  req.params.recipe_name.toLowerCase().split('-').join(' ');
         try {
-            res.render('recipes/add-recipe.ejs', { msg: null })           
+            res.render('recipes/add-recipe.ejs', { msg: null, user: req.user })           
         } catch (err) {
             console.error(err)
         }

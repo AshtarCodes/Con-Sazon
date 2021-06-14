@@ -42,8 +42,8 @@ const homeController = {
             res.render('dashboard', { user, mealPlan })
             
         } catch (error) {
+            console.error(error);
         }
-        console.error(error);
     },
     getMealPlan: async (req, res) => {
         try {
@@ -165,7 +165,7 @@ const homeController = {
     
             const singleRecipe = await Recipe.findById(recipeId)
             
-            res.render('mealPlanActive/single-recipe', { singleRecipe })
+            res.render('mealPlanActive/single-recipe', { singleRecipe, user: req.user })
         } catch (error) {
             console.error(error);
         }
@@ -350,9 +350,8 @@ const homeController = {
             }
 
             let shoppingList = sumIngredientQuantities(groupByIngredientName)
-           console.log(`SHOPPING LIST: `, shoppingList);
 
-            
+           console.log(`SHOPPING LIST: `, shoppingList);
             
             // If confirmed, continue. else, redirect 
             if (confirmedMealPlan.confirmDate){
