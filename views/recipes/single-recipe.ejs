@@ -14,49 +14,57 @@
    <% } else { %>
         <%-  include("../partials/header") %>
    <% } %>
-    <div class="container ">
-        <main class="content my-5">
-            <div class="row justify-content-center d-flex flex-column flex-sm-row">                    
-                    <div class="col-10 col-sm-6">
-                        <div class="image">
-                            <img class="img-fluid" src="<%= singleRecipe.image %>" alt="image of recipe">
-                        </div>
-                    </div>  
-                    <div class="col-10 col-sm-6">
-                        <h1 data-id="<%= singleRecipe._id %>" class='display-6'><%= singleRecipe.recipeName %></h1>
-                        <p>by: <%= singleRecipe.author %></p>
-                        <!-- prep/cook/total time -->
-                      <% if (singleRecipe.totalTime) { %>
-                        <div class="d-flex flex-column flex-md-row ">
-                            <p>Prep: <%= singleRecipe.prepTime %></p>
-                            <p>Cook: <%= singleRecipe.cookTime   %></p>
-                            <p>Total: <%= singleRecipe.totalTime %></p>
-                        </div>
-                      <% } %>
-                        <p><% if (singleRecipe.cuisine) {%> Cuisine: <%= singleRecipe.cuisine %> <% } %> </p>
-                        <p> Allergens: <%= singleRecipe.allergens != 'undefined' ? singleRecipe.allergens : 'none' %>  </p>
-                    </div>      
-            </div>
-            <div class="row">
-                <div>
-                    <p><%= singleRecipe.description %></p>
-                </div>
-                <div class="d-flex flex-column flex-md-row">
-                    <div class="col-12 col-sm-6">
-                        <h2>Ingredients</h2>
-                        <% for (item of singleRecipe.ingredients) { %>
-                            <p><%= item.ingredientRaw %></p>
-                        <% } %>
+    <div class="p-5">
+        <div class="container ">
+            <div class="d-flex justify-content-center align-items-center">
+                <main class="content">
+                    <div class="row justify-content-center d-flex flex-column flex-sm-row">
+                            <div class=" col-sm-6">
+                                <div class="image mb-4">
+                                    <img class="img-fluid rounded" src="<%= singleRecipe.image %>" alt="image of recipe">
+                                </div>
+                            </div>
+                            <div class=" col-sm-6">
+                                <h1 data-id="<%= singleRecipe._id %>" class='h2'><%= singleRecipe.recipeName %></h1>
+                                <p class="lead">by: <%= singleRecipe.author %></p>
+                                <div class="d-flex align-items-center">
+                                    <a class="btn-sm btn btn-outline-success mb-3" href="<%= singleRecipe.linkToSource %>">See Original</a>
+                                    <a class="btn-sm btn btn-outline-success mb-3 ms-3" href="<%= singleRecipe.linkToSource %>">Back to all recipes</a>
+                                </div>
+                                <!-- prep/cook/total time -->
+                              <% if (singleRecipe.totalTime) { %>
+                                <div class="d-flex flex-column flex-md-row ">
+                                    <p>Prep Time: <%= singleRecipe.prepTime %></p>
+                                    <p>Cook Time: <%= singleRecipe.cookTime   %></p>
+                                    <p>Total Time: <%= singleRecipe.totalTime %></p>
+                                </div>
+                              <% } %>
+                                <p><% if (singleRecipe.cuisine) {%> Cuisine: <%= singleRecipe.cuisine %> <% } %> </p>
+                                <p> Major allergens: <%= singleRecipe.allergens != 'undefined' ? singleRecipe.allergens : 'none' %>  </p>
+                            </div>
                     </div>
-                    <div class="col-12 col-sm-6">
-                        <h2>Instructions</h2>
-                        <% for (instruction of singleRecipe.instructions) { %>
-                            <p><%= instruction %></p>
-                        <% } %>
+                    <div class="row">
+                        <div>
+                            <p><%= singleRecipe.description %></p>
+                        </div>
+                        <div class="d-flex flex-column flex-md-row">
+                            <div class="col-sm-6 mb-3">
+                                <h2 class="text-decoration-underline">Ingredients</h2>
+                                <% for (item of singleRecipe.ingredients) { %>
+                                    <p><%= item.ingredientRaw %></p>
+                                <% } %>
+                            </div>
+                            <div class="col-sm-6">
+                                <h2 class="text-decoration-underline">Instructions</h2>
+                                <% for (instruction of singleRecipe.instructions) { %>
+                                    <p><%= instruction %></p>
+                                <% } %>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                </main>
             </div>
-        </main>
+        </div>
     </div>
     <%- include('../partials/footer') -%>
 </body>

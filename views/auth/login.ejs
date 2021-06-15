@@ -7,43 +7,52 @@
     <title>Con Sazon | Login</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/login.css">
 </head>
 <body>
-    <main class="container">
-      <div class="row justify-content-center">
-        <section class="col-6 mt-5">
+    <main class="p-5">
+      <div class="container ">
+      <div class="row ">        
+        <section class="col d-flex justify-content-center align-items-center mt-5">
+          <div class="login">
           <h1>Welcome to Con Sazon</h1>
           <p>Flavorful, real food. Rooted in culture. Period.</p>
           <%- include("../partials/flash") -%>
-          <div class="login">
-              <form action="/login" method="POST">
+              <form class="mb-4" action="/login" method="POST">
                   <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label"
+                    <label for="emailInput" class="form-label"
                       >Email address</label
                     >
                     <input
                       type="email"
-                      class="form-control"
-                      id="exampleInputEmail1"
+                      class="form-control auth-input"
+                      id="emailInput"
                       aria-describedby="emailHelp"
                       name="email"
                     />
                   </div>
                   <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">Password</label>
+                    <label for="passwordInput" class="form-label">Password</label>
                     <input
                       type="password"
-                      class="form-control"
-                      id="exampleInputPassword1"
+                      class="form-control auth-input"
+                      id="passwordInput"
                       name="password"
                     />
                   </div>
-                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <button type="submit" class="btn btn-primary">Login</button>
                 </form>
-              <a href="/sign-up">New here? Sign Up</a>
-          </div>
-        </section>
+                <div class="d-flex align-items-center">
+                  <a class="btn btn-outline-primary" href="/sign-up">Sign Up</a>
+                  <a class="btn btn-outline-primary ms-3" href="/recipes">Continue as Guest</a>
+                </div>
+              </div>
+            </section>
+        
+
       </div>
+    </div>
     </main>
+    <%- include('../partials/footer') -%>
 </body>
 </html>

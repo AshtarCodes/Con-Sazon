@@ -14,22 +14,24 @@
    <% } else { %>
         <%-  include("../partials/header") %>
    <% } %>
-    <div class="container m-5">
-        <h1>All Recipes</h1>
-        <section class="content my-5">
-            <div class="row gx-5">
-                <% for (let recipe of recipes) { %>
-                    <div class="col-3">
-                        <div>
-                            <a href="/recipes/<%= recipe.path %>"><img class="img-fluid" src="<%= recipe.image %>" alt="image of recipe"></a>
+    <section class="p-4">
+        <div class="container">
+            <h1 class="display-4">All Recipes</h1>
+            <section class="content my-5">
+                <div class="row gx-4 gx-sm-5">
+                    <% for (let recipe of recipes) { %>
+                        <div class="col-6 col-sm-4 col-md-3 col-xxl-2">
+                            <div>
+                                <a href="/recipes/<%= recipe.path %>"><img class="img-fluid" src="<%= recipe.image %>" alt="image of recipe"></a>
+                            </div>
+                            <h3 class="h5" data-id="<%= recipe._id %>"><%= recipe.recipeName %></h3>
+                            <p><%= recipe.author %></p>
                         </div>
-                        <h3 data-id="<%= recipe._id %>"><%= recipe.recipeName %></h3>
-                        <p><%= recipe.author %></p>
-                    </div>
-                <% }  %>
-            </div>
-        </section>
-    </div>
+                    <% }  %>
+                </div>
+            </section>
+        </div>
+    </section>
     <%- include('../partials/footer') -%>
 </body>
 </html>
