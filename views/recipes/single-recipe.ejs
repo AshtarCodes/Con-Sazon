@@ -29,7 +29,7 @@
                                 <p class="lead">by: <%= singleRecipe.author %></p>
                                 <div class="d-flex align-items-center">
                                     <a class="btn-sm btn btn-outline-success mb-3" href="<%= singleRecipe.linkToSource %>">See Original</a>
-                                    <a class="btn-sm btn btn-outline-success mb-3 ms-3" href="<%= singleRecipe.linkToSource %>">Back to all recipes</a>
+                                    <a class="btn-sm btn btn-outline-success mb-3 ms-3" href="javascript:history.back()">Back to all recipes</a>
                                 </div>
                                 <!-- prep/cook/total time -->
                               <% if (singleRecipe.totalTime) { %>
