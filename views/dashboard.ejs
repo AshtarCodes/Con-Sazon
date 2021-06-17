@@ -19,10 +19,10 @@
             <div class="col-3 gy-3">
                 <div class="container-fluid">
                     <!-- <button class="btn btn-primary mb-3" href="/recipes/custom-recipes" role="link">Add custom recipes</button> -->
-                    <button form="createPlan" type="submit" class="btn btn-secondary">Create a new <wbr>meal plan</button>
+                    <button form="createPlan" type="submit" class="btn btn-secondary mb-3">Create a new <wbr>meal plan</button>
                     <% if (mealPlan) { %>
-                    <form id="viewPlan" class='invisible ' action="/dashboard/meal-plan/<%= mealPlan._id %>/view" method="GET">
-                        <button type="submit" form="viewPlan" class="btn btn-secondary mb-3">View current <wbr>meal plan</button>
+                    <form id="viewPlan" class='' action="/dashboard/meal-plan/<%= mealPlan._id %>/view" method="GET">
+                        <button type="submit" form="viewPlan" class="btn btn-secondary mb-3">View current meal plan</button>
                     </form>
                     <% } %>
                 </div> 
