@@ -9,7 +9,7 @@ I love to discover new recipes and cook delicious meals for my family. Growing u
 
 ## Some Notes:
 
-I've focused on functionality over design at this point. I've learned alot about working with mongoDb and mongoose during the development of this app. I'm looking forward to continuing to dive deep into it's backend.  
+I've focused on functionality over design at this point. I've learned alot about working with MongoDb and Mongoose during the development of this app. I'm looking forward to continuing to dive deep into it's backend, and revamping the UI.  
 
 **Tech used:**  HTML, CSS, Javascript, Node, Express, MongoDb, EJS
 
