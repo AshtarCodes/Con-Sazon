@@ -19,6 +19,6 @@ I've focused on functionality over design at this point. I've learned alot about
 2. Implementing a printable shopping list of the ingredients required for a user's meal plan.
 3. Validating the recipe form. 
 4. Eventually re-designing the UI with React.  
-5. Adding more features! Stay tuned...
+5. Adding more features! Stay tuned.
 
 <h2 align="center">Thank you for reading!</h2>
