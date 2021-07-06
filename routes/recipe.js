@@ -3,7 +3,7 @@ const express = require('express');
 const Router = express.Router();
 const upload = require('../middleware/multer');
 const recipeController = require('../controllers/recipe');
-const { ensureGuest, ensureAuth } = require('../middleware/auth');
+const { ensureAuth } = require('../middleware/auth');
 
 // @desc All Recipes
 // @route GET /recipes (will be changed to /recipes)
