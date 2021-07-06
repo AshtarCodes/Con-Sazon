@@ -4,8 +4,8 @@
   "description": "A culturally mindful meal planning app",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js -e css,js,ejs",
+    "start": "cross-env NODE_ENV=production node server.js",
+    "dev": "cross-env NODE_ENV=development nodemon server.js -e css,js,ejs",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },
@@ -19,6 +19,7 @@
     "bootstrap-icons": "^1.5.0",
     "cloudinary": "^1.25.1",
     "connect-mongo": "^3.2.0",
+    "cross-env": "^7.0.3",
     "dotenv": "^9.0.2",
     "ejs": "^3.1.6",
     "express": "^4.17.1",

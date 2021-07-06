@@ -40,4 +40,11 @@ const RecipeSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model('Recipe', RecipeSchema, 'Recipes');
+let collection;
+if (process.env.NODE_ENV === 'development') {
+  collection = 'devRecipes';
+} else {
+  collection = 'Recipes';
+}
+
+module.exports = mongoose.model('Recipe', RecipeSchema, collection);
