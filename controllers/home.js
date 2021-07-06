@@ -4,11 +4,7 @@ const { ObjectId } = require('bson');
 const User = require('../models/User');
 const MealPlan = require('../models/MealPlan');
 const Recipe = require('../models/Recipe');
-const {
-  math,
-  definedUnits,
-  ignoreProductUnits,
-} = require('../middleware/math');
+const { sumIngredientQuantities } = require('../middleware/math');
 
 /* User flow from Dashboard: 
 **   + Btn 1: "View current meal plan" 
@@ -250,7 +246,7 @@ const homeController = {
              {product: plaintain, quantity: 5, unit: items}
              [plantain, 5 items] (can concat and parse quantities with Math.js)
             */
-
+      // TODO: Refactor into separate function.
       const groupByIngredientName = confirmedMealPlan.week
         .map((meal) => meal.ingredients)
         .flat()
@@ -277,91 +273,6 @@ const homeController = {
         }, {});
 
       console.log(`ingredientsNames: `, groupByIngredientName);
-
-      // P: obj of arrays; R: Obj of string; E: {product: '5 items'};
-      // Ps: convert to object.entries, loop through sub arrays and
-      // 1. assume same units, check each unit error,
-      // get a count of how many ingredients have diff units, then how many units in each one
-      function sumIngredientQuantities(obj) {
-        const itemQuantities = obj;
-        let finalQuantity = [];
-        try {
-          for (const item in itemQuantities) {
-            // loop through sub arrays
-            if (!ignoreProductUnits.some((el) => item.includes(el))) {
-              const quantities = itemQuantities[item];
-              // console.log(`QUANTITIES: `, quantities);
-
-              // parse array of quantity arrays
-              for (const quantity of quantities) {
-                const num = quantity[0];
-                let unit = quantity[1] ? quantity[1] : null;
-                // console.log(`NUM AND UNIT: `, num, unit);
-
-                // if it's a whole item, unit is null.
-                if (unit == null) {
-                  finalQuantity.push(num);
-                } else if (!definedUnits[unit]) {
-                  // for now, ignore it. eventually define it and convert.
-                } else if (definedUnits[unit]) {
-                  // if it's a nice unit, do some conversion and add things
-                  // ~!!~ TODO: implement ignore list, and handle small item quantities ~~!!~~***
-
-                  const unitToConvertTo = definedUnits[unit];
-                  unit = math.unit(num, unit).to(unitToConvertTo);
-
-                  if (unit.toNumber() < 1) {
-                  }
-
-                  finalQuantity.push(unit);
-                }
-              }
-
-              // if product quantities are all whole items (e.g 1 red pepper), add them up
-              if (finalQuantity.every((el) => typeof el === 'number')) {
-                finalQuantity = `${finalQuantity.reduce(
-                  (acc, c) => acc + c,
-                  0
-                )} item`;
-
-                // if product quantities are defined units in our system, add them up
-              } else if (
-                finalQuantity.every((el) => math.typeOf(el) == 'Unit')
-              ) {
-                // if all elements are mathjs units, add them up
-                finalQuantity = finalQuantity.reduce((acc, unit, i) => {
-                  if (i == 0) {
-                    const start = math.unit(0, unit.formatUnits());
-                    acc = math.add(start, unit);
-                  } else {
-                    acc = math.add(acc, unit);
-                  }
-                  return acc;
-                }, 0);
-                // display with 1 decimal place and unit: 1.1 cup
-                finalQuantity = `${finalQuantity
-                  .toNumber()
-                  .toFixed(1)} ${finalQuantity.formatUnits()}`;
-
-                // if not a whole item or a defined unit, then leave it blank
-              } else {
-                finalQuantity = null;
-              }
-            } else {
-              // if in the ignored product units list, provide no quantity
-              finalQuantity = null;
-            }
-            // set the current product to this single quantity
-            itemQuantities[item] = finalQuantity || null;
-
-            // reset the quantity
-            finalQuantity = [];
-          }
-          return itemQuantities;
-        } catch (error) {
-          console.error(error);
-        }
-      }
 
       const shoppingList = sumIngredientQuantities(groupByIngredientName);
 
