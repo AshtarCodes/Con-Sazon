@@ -1,8 +1,9 @@
-const { create, all, fermiCouplingDependencies } = require('mathjs')
-const config = {  }
-const math = create(all, config)
-const Recipe = require('../models/Recipe')
-const mongoose = require('mongoose')
+const { create, all, fermiCouplingDependencies } = require('mathjs');
+
+const config = {};
+const math = create(all, config);
+const mongoose = require('mongoose');
+const Recipe = require('../models/Recipe');
 /* 
 Already defined units
 --MASS--
@@ -56,13 +57,12 @@ pound
 *
 */
 
-
 // Testing mathjs syntax here
-math.createUnit('oolong', '1 cup')
-let unit = 'cup'
-let x = math.unit(3,'oolong').to(unit)
-let a = math.unit(1, 'oolong').to(unit)
-let result = math.add(x,a)
+math.createUnit('oolong', '1 cup');
+const unit = 'cup';
+const x = math.unit(3, 'oolong').to(unit);
+const a = math.unit(1, 'oolong').to(unit);
+const result = math.add(x, a);
 
 // console.log(math.unit(1,'lbs').to('oz').toString())
 // console.log(math.unit(1,'lbs').formatUnits());
@@ -72,29 +72,43 @@ let result = math.add(x,a)
 // let z = math.evaluate(`number(${a}, grams)`)
 // console.log(math.round(z)) // prints 8
 
-let y = math.unit('1 cup')
+const y = math.unit('1 cup');
 // console.log(y.to('floz').toString()); // prints '7.9999 floz'
 // console.log(`IS INSTANCE? `,math.typeOf(y) == 'Unit');
 
 // IN USE
-math.createUnit('stalk', {definition: '1 cup', aliases: ['stalks']})
-math.createUnit('pound', {definition: '16 oz', aliases: ['pounds', 'lb', 'lbs']}, {override: true})
-math.createUnit('bunch', {definition: '1 cup', aliases: ['bunches']})
-math.createUnit('clove', {definition: '1 teaspoon', aliases: ['cloves']})
+math.createUnit('stalk', { definition: '1 cup', aliases: ['stalks'] });
+math.createUnit(
+  'pound',
+  { definition: '16 oz', aliases: ['pounds', 'lb', 'lbs'] },
+  { override: true }
+);
+math.createUnit('bunch', { definition: '1 cup', aliases: ['bunches'] });
+math.createUnit('clove', { definition: '1 teaspoon', aliases: ['cloves'] });
 
 // consider turning this into class methods that manage amounts returned
 const definedUnits = {
-    teaspoon: 'tablespoon',
-    tablespoon: 'cup',
-    cup: 'cup',
-    stalk: 'stalk',
-    pound: 'pound',
-    bunch: 'bunch',
-    clove: 'cloves',
-    ounce: 'ounce',    
-}
+  teaspoon: 'tablespoon',
+  tablespoon: 'cup',
+  cup: 'cup',
+  stalk: 'stalk',
+  pound: 'pound',
+  bunch: 'bunch',
+  clove: 'cloves',
+  ounce: 'ounce',
+};
 
-const ignoreProductUnits = ['salt', 'oregano', 'lime', 'lemon', 'oil', 'cumin', 'paprika', 'powder', 'sauce']
+const ignoreProductUnits = [
+  'salt',
+  'oregano',
+  'lime',
+  'lemon',
+  'oil',
+  'cumin',
+  'paprika',
+  'powder',
+  'sauce',
+];
 
 // console.log(math.unit);
-module.exports = { math, definedUnits, ignoreProductUnits }
+module.exports = { math, definedUnits, ignoreProductUnits };

@@ -1,29 +1,32 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
-const RecipeSchema = new mongoose.Schema({
+const RecipeSchema = new mongoose.Schema(
+  {
     recipeName: {
-        type: String,
-        required: true,
-        unique: true,
+      type: String,
+      required: true,
+      unique: true,
     },
     recipeNameSpanish: {
-        type: String,
+      type: String,
     },
     path: String,
     author: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     linkToSource: {
-        type: String,
-        default: null
-    } ,
+      type: String,
+      default: null,
+    },
     image: String,
     cloudinaryId: String,
     ingredients: [mongoose.Schema.Types.Mixed],
-    instructions: [{
+    instructions: [
+      {
         type: String,
-    }],
+      },
+    ],
     cuisine: String,
     specialDiet: String,
     allergens: String,
@@ -32,8 +35,9 @@ const RecipeSchema = new mongoose.Schema({
     prepTime: String,
     totalTime: String,
     description: String,
-    servings: String,    
-},{ timestamps: true})
+    servings: String,
+  },
+  { timestamps: true }
+);
 
-
-module.exports = mongoose.model('Recipe', RecipeSchema, 'Recipes')
+module.exports = mongoose.model('Recipe', RecipeSchema, 'Recipes');

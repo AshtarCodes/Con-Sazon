@@ -1,7 +1,6 @@
 # Meal plan roadmap and feature list 
 
 # Working On RIGHT NOW
-- populate ingredients in confirmed view
 
 ## Working
 **Non-auth**
@@ -15,11 +14,12 @@
 - displaying populated meal plan selections
 - confirming meal plan selections
 - navigate to confirmed meal plan from dashboard
+- validation of confirmed vs unconfirmed meal plans
+- aggregating shopping list based on selections
+- req.flash messages on meal plan
 
 ## Left To Do
 ###### High priority
-- validation of confirmed vs unconfirmed meal plans
-- aggregating shopping list based on selections
 - partial for navigating around mealPlanActive
 ###### medium priority
 - favorited recipes
@@ -32,4 +32,3 @@
 - view to see history of meal plans  
 - optimizing render by specifying `projection/select()` and `lean()` to mongoose docs
 - set cloudinary images to lazy loading
-- req.flash messages on meal plan

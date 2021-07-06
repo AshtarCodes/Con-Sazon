@@ -1,30 +1,34 @@
-const axios = require('axios')
+const axios = require('axios');
 
 module.exports = {
-    parseIngredients: async (ingredients) => {
-        try {
-            if (!Array.isArray(ingredients)){
-                return 'Invalid data type passed to parseIngredients. Please pass an array.';
-            }
-            const url = 'https://zestful.p.rapidapi.com/parseIngredients'
-            const config = { 
-              headers: {
-                "content-type": "application/json",
-                "x-rapidapi-key": process.env.ZESTFUL_API_KEY,
-                "x-rapidapi-host": "zestful.p.rapidapi.com",
-            }}
-            
-            const {data} = await axios.post(url, {
-                "ingredients": ingredients
-            }, config);
+  parseIngredients: async (ingredients) => {
+    try {
+      if (!Array.isArray(ingredients)) {
+        return 'Invalid data type passed to parseIngredients. Please pass an array.';
+      }
+      const url = 'https://zestful.p.rapidapi.com/parseIngredients';
+      const config = {
+        headers: {
+          'content-type': 'application/json',
+          'x-rapidapi-key': process.env.ZESTFUL_API_KEY,
+          'x-rapidapi-host': 'zestful.p.rapidapi.com',
+        },
+      };
 
-            return data;   
+      const { data } = await axios.post(
+        url,
+        {
+          ingredients,
+        },
+        config
+      );
 
-        } catch (error) {
-            return console.error(error);
-        }
+      return data;
+    } catch (error) {
+      return console.error(error);
     }
-}
+  },
+};
 
 /*
 Expected response
