@@ -1,5 +1,5 @@
 /* eslint-disable no-restricted-syntax */
-const { create, all, fermiCouplingDependencies } = require('mathjs');
+const { create, all } = require('mathjs');
 
 const config = {};
 const math = create(all, config);
