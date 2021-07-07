@@ -272,7 +272,7 @@ const homeController = {
           return acc;
         }, {});
 
-      console.log(`ingredientsNames: `, groupByIngredientName);
+      // console.log(`ingredientsNames: `, groupByIngredientName);
 
       const shoppingList = sumIngredientQuantities(groupByIngredientName);
 
