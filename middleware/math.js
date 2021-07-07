@@ -59,11 +59,11 @@ pound
 */
 
 // Testing mathjs syntax here
-math.createUnit('oolong', '1 cup');
+/* math.createUnit('oolong', '1 cup');
 const cup = 'cup';
 const x = math.unit(3, 'oolong').to(cup);
 const a = math.unit(1, 'oolong').to(cup);
-const result = math.add(x, a);
+const result = math.add(x, a); */
 
 // console.log(math.unit(1,'lbs').to('oz').toString())
 // console.log(math.unit(1,'lbs').formatUnits());
@@ -73,7 +73,7 @@ const result = math.add(x, a);
 // let z = math.evaluate(`number(${a}, grams)`)
 // console.log(math.round(z)) // prints 8
 
-const y = math.unit('1 cup');
+// const y = math.unit('1 cup');
 // console.log(y.to('floz').toString()); // prints '7.9999 floz'
 // console.log(`IS INSTANCE? `,math.typeOf(y) == 'Unit');
 
@@ -93,7 +93,7 @@ const definedUnits = {
   tablespoon: { standard: 'tablespoon', small: 'teaspoon', large: 'cup' },
   cup: { standard: 'cup', small: 'tablespoon', large: null },
   stalk: { standard: 'stalk', small: null, large: null },
-  pound: { standard: 'pound', small: null, large: null },
+  pound: { standard: 'pound', small: 'ounce', large: null },
   bunch: { standard: 'bunch', small: null, large: null },
   clove: { standard: 'cloves', small: null, large: null },
   ounce: { standard: 'ounce', small: null, large: 'pound' },
@@ -184,7 +184,8 @@ function sumIngredientQuantities(obj) {
             console.log('CONVERT TO SMALL: ', unitToConvertTo);
           } else if (
             (num > 4 && unit === 'tablespoon') ||
-            (num >= 3 && unit === 'teaspoon')
+            (num >= 3 && unit === 'teaspoon') ||
+            (num >= 16 && unit === 'ounce')
           ) {
             unitToConvertTo = definedUnits[unit].large;
             console.log('CONVERT TO LARGE : ', unitToConvertTo);
