@@ -5,6 +5,8 @@ I love to discover new recipes and cook delicious meals for my family. Growing u
 
 **Link to hosted webapp:** https://consazon.herokuapp.com
 
+**Link to Technical Specification:** [Google Doc](https://docs.google.com/document/d/1wSGA8XWXWbitTgEoaJicoBn-17jarufUZ0PGbIZXwLw/edit?usp=sharing)
+
 ### :construction: This webapp is actively under construction! ###
 
 ## Some Notes:
