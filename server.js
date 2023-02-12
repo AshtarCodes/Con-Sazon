@@ -20,9 +20,6 @@ dotenv.config({ path: './config/.env' });
 // Passport config
 require('./config/passport')(passport);
 
-// connect to database
-connectDB();
-
 // express middleware
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
@@ -66,4 +63,13 @@ app.use('/recipes', recipeRoutes);
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, console.log(`Server running`));
+// connect to database
+connectDB().then(() => {
+  app.listen(PORT, (err) => {
+    if (err) {
+      console.error(err);
+    } else {
+      console.log(`Server running`);
+    }
+  });
+});
