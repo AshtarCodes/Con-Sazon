@@ -85,7 +85,7 @@ module.exports = (passport) => {
             req.flash("errors", {
               msg: "There is already a Google account that belongs to you. Sign in with that account or delete it, then link it with your current account.",
             });
-            done(err);
+            done();
           } else {
             const user = await User.findById(req.user.id);
 
@@ -118,7 +118,7 @@ module.exports = (passport) => {
             req.flash("errors", {
               msg: "There is already an account using this email address. Sign in to that account and link it with Google manually from Account Settings.",
             });
-            done(err);
+            done();
           } else {
             // CREATE NEW GOOGLE USER
             const user = new User();
