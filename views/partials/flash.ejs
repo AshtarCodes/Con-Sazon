@@ -1,12 +1,16 @@
-<% if(success && success.length){ %>
+<% for (const msg of success) { %>
+    <% if(msg){ %>
     <div class="alert alert-success alert-dismissible fade show" role="alert" >
-        <%= success %>
+        <%= msg %>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
+    <% } %>
 <% } %>
-<% if(errors && errors.length){ %>
+<% for (const error of errors) { %>
+    <% if(error){ %>
     <div class="alert alert-danger alert-dismissible fade show" role="alert" >
-        <%= errors %>
+        <%= error %>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
+    <% } %>
 <% } %>

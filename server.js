@@ -13,6 +13,7 @@ const connectDB = require("./config/database");
 const homeRoutes = require("./routes/home");
 const recipeRoutes = require("./routes/recipe");
 const authRoutes = require("./routes/auth");
+const formatMessages = require("./middleware/customFunctions").formatMessages;
 
 // Load env variables into app
 dotenv.config({ path: "./config/.env" });
@@ -55,8 +56,12 @@ app.use(passport.session());
 // use express-flash to display errors and success messages
 app.use(flash());
 app.use((req, res, next) => {
-  res.locals.success = req.flash("success");
-  res.locals.errors = req.flash("errors");
+  const successMsg = formatMessages(req.flash("success"));
+  const errorMsg = formatMessages(req.flash("errors"));
+  console.log("succes: ", successMsg);
+  console.log("error: ", errorMsg);
+  res.locals.success = successMsg;
+  res.locals.errors = errorMsg;
   next();
 });
 

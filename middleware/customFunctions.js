@@ -4,7 +4,7 @@ function groupByProperty(body, substr) {
   const arr = Object.entries(body)
     .filter(([key]) => key.includes(substr))
     .reduce((accumulator, [key, value]) => {
-      const [, i, keyName] = key.split('-');
+      const [, i, keyName] = key.split("-");
       if (!accumulator[i - 1]) {
         accumulator[i - 1] = {};
       }
@@ -21,7 +21,22 @@ function fixedEncodeURIComponent(str) {
   });
 }
 
+function formatMessages(messages) {
+  if (messages && typeof messages === "string") {
+    return [messages];
+  } else if (messages.length && Array.isArray(messages)) {
+    return messages.map((obj) => obj.msg);
+  } else if (
+    messages &&
+    typeof messages === "object" &&
+    !Array.isArray(messages)
+  )
+    return [messages.msg];
+  return [];
+}
+
 module.exports = {
   groupByProperty,
   fixedEncodeURIComponent,
+  formatMessages,
 };
