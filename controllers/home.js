@@ -1,10 +1,7 @@
-const mongoose = require('mongoose');
-const moment = require('moment');
-const { ObjectId } = require('bson');
-const User = require('../models/User');
-const MealPlan = require('../models/MealPlan');
-const Recipe = require('../models/Recipe');
-const { sumIngredientQuantities } = require('../middleware/math');
+const { ObjectId } = require("bson");
+const MealPlan = require("../models/MealPlan");
+const Recipe = require("../models/Recipe");
+const { sumIngredientQuantities } = require("../middleware/math");
 
 /* User flow from Dashboard: 
 **   + Btn 1: "View current meal plan" 
@@ -29,18 +26,16 @@ const homeController = {
       const { user } = req;
 
       const lastUpdatedMealPlan = await MealPlan.find({
-        userId: req.user._id,
+        userId: req.user.id,
       })
         .sort({ updatedAt: -1 })
-        .populate('week');
+        .populate("week");
 
       const mealPlan = lastUpdatedMealPlan[0];
-      console.log(`last updated plan 1: `, lastUpdatedMealPlan[0]);
-      console.log(`All plans: `, lastUpdatedMealPlan);
-      // console.log(`last updated plan 2: `, lastUpdatedMealPlan[1]);
 
-      res.render('dashboard', { user, mealPlan });
+      res.render("dashboard", { user, mealPlan });
     } catch (error) {
+      console.error("Get Dashboard");
       console.error(error);
     }
   },
@@ -63,13 +58,11 @@ const homeController = {
       }).sort({ createdAt: -1 });
 
       let mealPlan = hasMealPlan;
-      console.log(`no ARRAY?: `, mealPlan);
+
       if (hasMealPlan[0]) {
         mealPlan = hasMealPlan[0];
 
-        await mealPlan.populate('week').execPopulate();
-
-        console.log(`POPULATED: `, mealPlan);
+        await mealPlan.populate("week").execPopulate();
       } else {
         // mealPlan = await MealPlan.create({
         //     userId: req.user._id,
@@ -77,7 +70,7 @@ const homeController = {
         // })
         // console.log(`created: `, mealPlan);
       }
-      res.render('mealPlanActive/all-recipes', {
+      res.render("mealPlanActive/all-recipes", {
         recipes,
         mealPlan,
         user,
@@ -108,22 +101,17 @@ const homeController = {
         .sort({ createdAt: -1 })
         .exec();
 
-      console.log(`FIND array: `, hasMealPlan);
-
       let mealPlan;
       if (hasMealPlan[0]) {
         mealPlan = hasMealPlan[0];
-        console.log(`FIND DOC: `, mealPlan);
       } else {
         mealPlan = await MealPlan.create({
           userId: req.user._id,
           week: [],
         });
-        console.log(`CREATE DOC: `, mealPlan);
-        // res.render('mealPlanActive/all-recipes', {recipes, user, mealPlan, msg: null} )
       }
 
-      res.redirect('/dashboard/meal-plan');
+      res.redirect("/dashboard/meal-plan");
     } catch (err) {
       console.error(err);
     }
@@ -136,7 +124,6 @@ const homeController = {
 
       // find selected recipe
       const recipe = await Recipe.findById(recipeId);
-      console.log(`RETRIEVED RECIPE`, recipe);
 
       // retrieve array of existing meal plans sorted by most recently created
       const hasMealPlan = await MealPlan.findOneAndUpdate(
@@ -156,7 +143,7 @@ const homeController = {
       );
       // redirect back to meal plan selection
       // res.send('updated!')
-      res.redirect('/dashboard/meal-plan');
+      res.redirect("/dashboard/meal-plan");
     } catch (err) {
       console.error(err);
     }
@@ -168,7 +155,7 @@ const homeController = {
 
       const singleRecipe = await Recipe.findById(recipeId);
 
-      res.render('mealPlanActive/single-recipe', {
+      res.render("mealPlanActive/single-recipe", {
         singleRecipe,
         user: req.user,
       });
@@ -197,7 +184,7 @@ const homeController = {
         }
       );
 
-      res.redirect('/dashboard/meal-plan');
+      res.redirect("/dashboard/meal-plan");
     } catch (error) {
       console.error(error);
     }
@@ -221,8 +208,6 @@ const homeController = {
         }
       );
 
-      console.log(`CONFIRMED PLAN? `, confirmed);
-
       res.redirect(`/dashboard/meal-plan/${mealPlanId}/view`);
     } catch (error) {
       console.error(error);
@@ -235,7 +220,7 @@ const homeController = {
 
       // retrieve confirmed meal plan by id
       const confirmedMealPlan = await MealPlan.findById(mealPlanId)
-        .populate('week')
+        .populate("week")
         .lean();
 
       /* How to get a sum of all ingredient quantities
@@ -272,15 +257,11 @@ const homeController = {
           return acc;
         }, {});
 
-      // console.log(`ingredientsNames: `, groupByIngredientName);
-
       const shoppingList = sumIngredientQuantities(groupByIngredientName);
-
-      console.log(`SHOPPING LIST: `, shoppingList);
 
       // If confirmed, continue. else, redirect
       if (confirmedMealPlan.confirmDate) {
-        res.render('mealPlanActive/meal-plan', {
+        res.render("mealPlanActive/meal-plan", {
           mealPlan: confirmedMealPlan,
           user: req.user,
           shoppingList,
@@ -288,10 +269,10 @@ const homeController = {
         });
       } else {
         req.flash(
-          'errors',
+          "errors",
           "You don't have any confirmed meal plans! Please confirm selections on an existing plan, or create a new one."
         );
-        res.redirect('/dashboard/meal-plan');
+        res.redirect("/dashboard/meal-plan");
       }
     } catch (error) {
       console.error(error);

@@ -1,64 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Con Sazon | Login</title>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/login.css">
-    
-    <!-- Open graph metadata -->
-    <meta property="og:image" content="https://res.cloudinary.com/ashsheran1/image/upload/f_auto,q_auto/v1623954938/con_sazon_app/con-sazon-thumb_w39xlg.png">
-    <meta property="og:description" content="A meal planning app that centers Latinx and BIPOC gastronomy.">
-    <meta property="og:title" content="Con Sazon">
-    <link rel="canonical" href="https://consazon.herokuapp.com">
-  </head>
-<body>
-    <main class="p-5">
-      <div class="container ">
-      <div class="row ">        
-        <section class="col d-flex justify-content-center align-items-center mt-5">
-          <div class="login">
-          <h1>Welcome to Con Sazon</h1>
-          <p>Flavorful, real food. Rooted in culture. Period.</p>
-          <%- include("../partials/flash") -%>
-              <form class="mb-4" action="/login" method="POST">
-                  <div class="mb-3">
-                    <label for="emailInput" class="form-label"
-                      >Email address</label
-                    >
-                    <input
-                      type="email"
-                      class="form-control auth-input"
-                      id="emailInput"
-                      aria-describedby="emailHelp"
-                      name="email"
-                    />
-                  </div>
-                  <div class="mb-3">
-                    <label for="passwordInput" class="form-label">Password</label>
-                    <input
-                      type="password"
-                      class="form-control auth-input"
-                      id="passwordInput"
-                      name="password"
-                    />
-                  </div>
-                  <button type="submit" class="btn btn-primary">Login</button>
-                </form>
-                <div class="d-flex align-items-center">
-                  <a class="btn btn-outline-primary" href="/sign-up">Sign Up</a>
-                  <a class="btn btn-outline-primary ms-3" href="/recipes">Continue as Guest</a>
-                </div>
-              </div>
-            </section>
-        
+    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="/css/login.css" />
 
+    <!-- Open graph metadata -->
+    <meta
+      property="og:image"
+      content="https://res.cloudinary.com/ashsheran1/image/upload/f_auto,q_auto/v1623954938/con_sazon_app/con-sazon-thumb_w39xlg.png"
+    />
+    <meta
+      property="og:description"
+      content="A meal planning app that centers Latinx and BIPOC gastronomy."
+    />
+    <meta property="og:title" content="Con Sazon" />
+    <link rel="canonical" href="https://consazon.herokuapp.com" />
+  </head>
+  <body>
+    <main class="p-5">
+      <div class="container">
+        <div class="row">
+          <section
+            class="col d-flex justify-content-center align-items-center mt-5"
+          >
+            <div class="login">
+              <h1>Welcome to Con Sazon</h1>
+              <p>Flavorful, real food. Rooted in culture. Period.</p>
+              <%- include("../partials/flash") -%>
+              <form class="mb-4" action="/login" method="POST">
+                <div class="mb-3">
+                  <label for="emailInput" class="form-label"
+                    >Email address</label
+                  >
+                  <input
+                    type="email"
+                    class="form-control auth-input"
+                    id="emailInput"
+                    aria-describedby="emailHelp"
+                    name="email"
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="passwordInput" class="form-label">Password</label>
+                  <input
+                    type="password"
+                    class="form-control auth-input"
+                    id="passwordInput"
+                    name="password"
+                  />
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+              </form>
+              <div class="d-flex align-items-center">
+                <a class="btn btn-outline-primary" href="/auth/google"
+                  ><i class="fab fa-google"></i>Login With Google</a
+                >
+                <a class="btn btn-outline-primary ms-3" href="/sign-up"
+                  >Sign Up</a
+                >
+                <a class="btn btn-outline-primary ms-3" href="/recipes"
+                  >Continue as Guest</a
+                >
+              </div>
+            </div>
+          </section>
+        </div>
       </div>
-    </div>
     </main>
     <%- include('../partials/footer') -%>
-</body>
+  </body>
 </html>
