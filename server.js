@@ -78,7 +78,7 @@ connectDB().then(() => {
     if (err) {
       console.error(err);
     } else {
-      console.log(`Server running`);
+      console.log(`Server running on port ${PORT}`);
     }
   });
 });

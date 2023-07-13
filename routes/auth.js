@@ -18,6 +18,10 @@ Router.post(
   }),
   authController.postLogin
 );
+Router.get(
+  "/login/demo",
+  authController.getDemoLogin
+);
 
 Router.get(
   "/auth/google",

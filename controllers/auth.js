@@ -9,6 +9,18 @@ const authController = {
     }
     res.render("auth/login");
   },
+  getDemoLogin: async (req, res) => {
+    if (req.user) {
+      return res.redirect("/dashboard");
+    }
+    const user = await User.findOne({ email: 'testconsazon@gmail.com'});
+    req.logIn(user, (err) => {
+          if (err) {
+            return next(err);
+          }
+          res.redirect("/dashboard");
+        });
+  },
   getSignUp: (req, res) => {
     res.render("auth/sign-up.ejs");
   },
